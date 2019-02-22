@@ -85,15 +85,15 @@ final class ArrayHelper
     /**
      * Traverse array with path and get value.
      *
-     * @param array|\Traversable $mixed Source
-     * @param string             $path  Path
+     * @param iterable $mixed Source
+     * @param string   $path  Path
      *
      * @return mixed|null
      * @throws \InvalidArgumentException if first argument is not a traversable data
      */
     public static function traverseGet(&$mixed, string $path)
     {
-        if (!(is_array($mixed) || $mixed instanceof \Traversable)) {
+        if (!is_iterable($mixed)) {
             throw new \InvalidArgumentException('First argument must be a traversable mixed data');
         }
 
@@ -101,6 +101,10 @@ final class ArrayHelper
 
         $temp = &$mixed;
         foreach ($path as $key) {
+            if (!is_iterable($temp)) {
+                return null;
+            }
+
             $temp = &$temp[$key];
         }
 
@@ -110,16 +114,16 @@ final class ArrayHelper
     /**
      * Traverse array with path and set value.
      *
-     * @param array|\Traversable $mixed Source
-     * @param string             $path  Path
-     * @param mixed              $value Value
+     * @param iterable $mixed Source
+     * @param string   $path  Path
+     * @param mixed    $value Value
      *
      * @return bool
      * @throws \InvalidArgumentException if first argument is not a traversable data
      */
     public static function traverseSet(&$mixed, string $path, $value): bool
     {
-        if (!(is_array($mixed) || $mixed instanceof \Traversable)) {
+        if (!is_iterable($mixed)) {
             throw new \InvalidArgumentException('First argument must be a traversable mixed data');
         }
 
@@ -127,6 +131,10 @@ final class ArrayHelper
 
         $temp = &$mixed;
         foreach ($path as $key) {
+            if (!is_null($temp) && !is_iterable($temp)) {
+                return false;
+            }
+
             $temp = &$temp[$key];
         }
         $temp = $value;

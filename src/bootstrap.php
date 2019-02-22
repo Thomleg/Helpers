@@ -42,8 +42,8 @@ function b_array_merge_recursive(array $arraySrc, array ...$arrays): array
 /**
  * Traverse array with path and get value.
  *
- * @param array|\Traversable $mixed Source
- * @param string             $path  Path
+ * @param iterable $mixed Source
+ * @param string   $path  Path
  *
  * @return mixed|null
  * @throws \InvalidArgumentException if first argument is not a traversable data
@@ -56,9 +56,9 @@ function b_array_traverse_get(&$mixed, string $path)
 /**
  * Traverse array with path and set value.
  *
- * @param array|\Traversable $mixed Source
- * @param string             $path  Path
- * @param mixed              $value Value
+ * @param iterable $mixed Source
+ * @param string   $path  Path
+ * @param mixed    $value Value
  *
  * @return bool
  * @throws \InvalidArgumentException if first argument is not a traversable data
