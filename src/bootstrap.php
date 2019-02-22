@@ -1,0 +1,254 @@
+<?php
+
+use Berlioz\Helpers\ArrayHelper;
+use Berlioz\Helpers\FileHelper;
+use Berlioz\Helpers\ObjectHelper;
+use Berlioz\Helpers\StringHelper;
+
+////////////////////
+/// ARRAY HELPER ///
+////////////////////
+
+/**
+ * Is sequential array?
+ *
+ * @param array $array
+ *
+ * @return bool
+ */
+function b_array_is_sequential(array $array): bool
+{
+    return ArrayHelper::isSequential($array);
+}
+
+
+/**
+ * Merge two or more arrays recursively.
+ *
+ * Difference between native array_merge_recursive() is that
+ * b_array_merge_recursive() do not merge strings values
+ * into an array.
+ *
+ * @param array   $arraySrc Array source
+ * @param array[] $arrays   Arrays to merge
+ *
+ * @return array
+ */
+function b_array_merge_recursive(array $arraySrc, array ...$arrays): array
+{
+    return ArrayHelper::mergeRecursive($arraySrc, ...$arrays);
+}
+
+/**
+ * Traverse array with path and get value.
+ *
+ * @param array|\Traversable $mixed Source
+ * @param string             $path  Path
+ *
+ * @return mixed|null
+ * @throws \InvalidArgumentException if first argument is not a traversable data
+ */
+function b_array_traverse_get(&$mixed, string $path)
+{
+    return ArrayHelper::traverseGet($mixed, $path);
+}
+
+/**
+ * Traverse array with path and set value.
+ *
+ * @param array|\Traversable $mixed Source
+ * @param string             $path  Path
+ * @param mixed              $value Value
+ *
+ * @return bool
+ * @throws \InvalidArgumentException if first argument is not a traversable data
+ */
+function b_array_traverse_set(&$mixed, string $path, $value): bool
+{
+    return ArrayHelper::traverseSet($mixed, $path, $value);
+}
+
+
+///////////////////
+/// FILE HELPER ///
+///////////////////
+
+/**
+ * Get a human see file size.
+ *
+ * @param int|float $size
+ * @param int       $precision
+ *
+ * @return string
+ */
+function b_human_file_size($size, int $precision = 2): string
+{
+    return FileHelper::humanFileSize($size, $precision);
+}
+
+/**
+ * Get size in bytes from ini conf file.
+ *
+ * @param string $size
+ *
+ * @return int
+ */
+function b_size_from_ini(string $size): int
+{
+    return FileHelper::sizeFromIni($size);
+}
+
+
+/////////////////////
+/// OBJECT HELPER ///
+/////////////////////
+
+/**
+ * Get property value with getter method.
+ *
+ * @param object $object
+ * @param string $property
+ * @param bool   $exists
+ *
+ * @return mixed
+ * @throws \ReflectionException
+ */
+function b_get_property_value($object, string $property, &$exists = null)
+{
+    return ObjectHelper::getPropertyValue($object, $property, $exists);
+}
+
+/**
+ * Set property value with setter method.
+ *
+ * @param object $object
+ * @param string $property
+ * @param mixed  $value
+ *
+ * @return bool
+ * @throws \ReflectionException
+ */
+function b_set_property_value($object, string $property, $value): bool
+{
+    return ObjectHelper::setPropertyValue($object, $property, $value);
+}
+
+
+/////////////////////
+/// STRING HELPER ///
+/////////////////////
+
+define('B_STR_RANDOM_NUMBER', 1);
+define('B_STR_RANDOM_SPECIAL_CHARACTERS', 2);
+define('B_STR_RANDOM_LOWER_CASE', 4);
+define('B_STR_RANDOM_NEED_ALL', 64);
+
+/**
+ * Generate an random string.
+ *
+ * @param int $length  Length of string
+ * @param int $options Options
+ *
+ * @return string
+ */
+function b_str_random(int $length = 12, int $options = B_STR_RANDOM_NUMBER | B_STR_RANDOM_SPECIAL_CHARACTERS | B_STR_RANDOM_NEED_ALL): string
+{
+    return StringHelper::random($length, $options);
+}
+
+/**
+ * Surrounds paragraphs with "P" HTML tag and inserts HTML line breaks before all newlines; in a string.
+ *
+ * @param string $str
+ *
+ * @return string
+ */
+function b_nl2p(string $str): string
+{
+    return StringHelper::nl2p($str);
+}
+
+/**
+ * Remove accents.
+ *
+ * @param string $str
+ *
+ * @return string
+ */
+function b_str_remove_accents(string $str): string
+{
+    return StringHelper::removeAccents($str);
+}
+
+/**
+ * String to URI string.
+ *
+ * @param string $str
+ *
+ * @return string
+ */
+function b_str_to_uri(string $str): string
+{
+    return StringHelper::strToUri($str);
+}
+
+/**
+ * Minify HTML string.
+ *
+ * @param string $str
+ *
+ * @return string
+ * @link https://stackoverflow.com/a/5324014
+ */
+function b_minify_html(string $str): string
+{
+    return StringHelper::minifyHtml($str);
+}
+
+/**
+ * Get pascal case convention of string.
+ *
+ * @param string $str
+ *
+ * @return string
+ */
+function b_pascal_case(string $str): string
+{
+    return StringHelper::pascalCase($str);
+}
+
+/**
+ * Get camel case convention of string.
+ *
+ * @param string $str
+ *
+ * @return string
+ */
+function b_camel_case(string $str): string
+{
+    return StringHelper::camelCase($str);
+}
+
+/**
+ * Get snake case convention of string.
+ *
+ * @param string $str
+ *
+ * @return string
+ */
+function b_snake_case(string $str): string
+{
+    return StringHelper::snakeCase($str);
+}
+
+/**
+ * Get spinal case convention of string.
+ *
+ * @param string $str
+ *
+ * @return string
+ */
+function b_spinal_case(string $str): string
+{
+    return StringHelper::spinalCase($str);
+}

@@ -1,0 +1,32 @@
+{
+  "name": "berlioz/helpers",
+  "type": "library",
+  "description": "Helpers for Berlioz Framework",
+  "license": "MIT",
+  "homepage": "http://getberlioz.com",
+  "authors": [
+    {
+      "name": "Ronan Giron",
+      "email": "ronan@getberlioz.com"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "Berlioz\\Helpers\\": "src/"
+    },
+    "files": ["src/bootstrap.php"]
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Berlioz\\Helpers\\Tests\\": "tests/"
+    }
+  },
+  "require": {
+    "php": "^7.1",
+    "ext-mbstring": "*",
+    "ext-intl": "*"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^7.5"
+  }
+}
