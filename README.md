@@ -66,6 +66,10 @@ Many PHP functions used in the Berlioz framework, which you can use in your deve
 
   Minify HTML string.
 
+- `b_str_truncate(string $str, int $nbCharacters = 128, int $where = B_TRUNCATE_RIGHT, string $separator = '...'): string`
+
+  Truncate string.
+
 - `b_pascal_case(string $str): string`
 
   Get pascal case convention of string.

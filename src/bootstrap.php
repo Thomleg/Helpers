@@ -142,6 +142,9 @@ define('B_STR_RANDOM_NUMBER', 1);
 define('B_STR_RANDOM_SPECIAL_CHARACTERS', 2);
 define('B_STR_RANDOM_LOWER_CASE', 4);
 define('B_STR_RANDOM_NEED_ALL', 64);
+define('B_TRUNCATE_LEFT', 1);
+define('B_TRUNCATE_MIDDLE', 2);
+define('B_TRUNCATE_RIGHT', 3);
 
 /**
  * Generate an random string.
@@ -203,6 +206,21 @@ function b_str_to_uri(string $str): string
 function b_minify_html(string $str): string
 {
     return StringHelper::minifyHtml($str);
+}
+
+/**
+ * Truncate string.
+ *
+ * @param string $str          String
+ * @param int    $nbCharacters Number of characters
+ * @param int    $where        Where option: B_TRUNCATE_LEFT, B_TRUNCATE_MIDDLE or B_TRUNCATE_RIGHT
+ * @param string $separator    Separator string
+ *
+ * @return string
+ */
+function b_str_truncate(string $str, int $nbCharacters = 128, int $where = B_TRUNCATE_RIGHT, string $separator = '...'): string
+{
+    return StringHelper::truncate($str, $nbCharacters, $where, $separator);
 }
 
 /**

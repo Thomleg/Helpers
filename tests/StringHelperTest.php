@@ -69,6 +69,21 @@ class StringHelperTest extends TestCase
                             StringHelper::minifyHtml("<p>\nTest\n</p>\n<textarea>Test   test\nTest\n\n</textarea>\n<p>\nTest\n  test\n</p>"));
     }
 
+    public function testTruncate()
+    {
+        $this->assertEquals('Domi ne agmina quos spatia praet ...',
+                            StringHelper::truncate('Domi ne agmina quos spatia praetermitto ut equos silices quod.',
+                                                   32,
+                                                   StringHelper::TRUNCATE_RIGHT));
+        $this->assertEquals('Domi ne agmina q ... os silices quod.',
+                            StringHelper::truncate('Domi ne agmina quos spatia praetermitto ut equos silices quod.',
+                                                   32,
+                                                   StringHelper::TRUNCATE_MIDDLE));
+        $this->assertEquals('... etermitto ut equos silices quod.',
+                            StringHelper::truncate('Domi ne agmina quos spatia praetermitto ut equos silices quod.',
+                                                   32,
+                                                   StringHelper::TRUNCATE_LEFT));
+    }
 
     public function testPascalCase()
     {

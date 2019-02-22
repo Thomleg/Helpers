@@ -26,6 +26,10 @@ final class StringHelper
     const RANDOM_SPECIAL_CHARACTERS = 2;
     const RANDOM_LOWER_CASE = 4;
     const RANDOM_NEED_ALL = 64;
+    // Truncate
+    const TRUNCATE_LEFT = 1;
+    const TRUNCATE_MIDDLE = 2;
+    const TRUNCATE_RIGHT = 3;
 
     /**
      * Generate an random string.
@@ -183,6 +187,41 @@ EOT;
         ini_set('pcre.recursion_limit', $oldPcreRecursionLimit);
 
         $str = preg_replace($regex, ' ', $str);
+
+        return $str;
+    }
+
+    /**
+     * Truncate string.
+     *
+     * @param string $str          String
+     * @param int    $nbCharacters Number of characters
+     * @param int    $where        Where option: B_TRUNCATE_LEFT, B_TRUNCATE_MIDDLE or B_TRUNCATE_RIGHT
+     * @param string $separator    Separator string
+     *
+     * @return string
+     */
+    public static function truncate(string $str, int $nbCharacters = 128, int $where = self::TRUNCATE_RIGHT, string $separator = '...'): string
+    {
+        $str = html_entity_decode($str);
+
+        if (mb_strlen(trim($str)) > 0 && mb_strlen(trim($str)) > $nbCharacters) {
+            switch ($where) {
+                case self::TRUNCATE_LEFT:
+                    $str = $separator . ' ' . mb_substr($str, intval(mb_strlen($str) - $nbCharacters, mb_strlen($str)));
+                    break;
+                case self::TRUNCATE_RIGHT:
+                    $str = mb_substr($str, 0, $nbCharacters) . ' ' . $separator;
+                    break;
+                case self::TRUNCATE_MIDDLE:
+                    $str = mb_substr($str, 0, intval(ceil($nbCharacters / 2))) .
+                           ' ' .
+                           $separator .
+                           ' ' .
+                           mb_substr($str, intval(mb_strlen($str) - floor($nbCharacters / 2)), mb_strlen($str));
+                    break;
+            }
+        }
 
         return $str;
     }
