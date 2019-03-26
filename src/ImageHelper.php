@@ -204,6 +204,10 @@ final class ImageHelper
      */
     public static function resizeSupport($img, int $newWidth = null, int $newHeight = null)
     {
+        if (!extension_loaded('gd')) {
+            throw new \RuntimeException('Need GD extension');
+        }
+
         // Get current size
         if (is_string($img)) {
             list($width, $height, $type) = \getimagesize($img);
