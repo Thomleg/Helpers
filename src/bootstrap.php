@@ -4,6 +4,7 @@ use Berlioz\Helpers\ArrayHelper;
 use Berlioz\Helpers\FileHelper;
 use Berlioz\Helpers\ObjectHelper;
 use Berlioz\Helpers\StringHelper;
+use Berlioz\Helpers\ImageHelper;
 
 ////////////////////
 /// ARRAY HELPER ///
@@ -146,6 +147,7 @@ define('B_TRUNCATE_LEFT', 1);
 define('B_TRUNCATE_MIDDLE', 2);
 define('B_TRUNCATE_RIGHT', 3);
 
+
 /**
  * Generate an random string.
  *
@@ -269,4 +271,71 @@ function b_snake_case(string $str): string
 function b_spinal_case(string $str): string
 {
     return StringHelper::spinalCase($str);
+}
+
+/////////////////////
+/// IMAGE HELPER ///
+/////////////////////
+
+define('B_IMG_SIZE_RATIO', 1);
+
+/**
+ * Calculate a gradient destination color.
+ *
+ * @param string $color        Source color (hex)
+ * @param string $colorToAdd   Color to add (hex)
+ * @param float  $percentToAdd Percent to add
+ *
+ * @return string
+ */
+function b_gradient_color(string $color, string $colorToAdd, float $percentToAdd): string
+{
+    return ImageHelper::gradientColor($color, $colorToAdd, $percentToAdd);
+}
+
+/**
+ * Calculate sizes with new given width and height.
+ *
+ * @param int $originalWidth  Original width
+ * @param int $originalHeight Original height
+ * @param int $newWidth       New width
+ * @param int $newHeight      New height
+ * @param int $mode           Mode (default: B_IMG_SIZE_RATIO)
+ *
+ * @return array
+ */
+function b_img_size(int $originalWidth, int $originalHeight, int $newWidth = null, int $newHeight = null, int $mode = B_IMG_SIZE_RATIO): array
+{
+    return ImageHelper::size($originalWidth, $originalHeight, $newWidth, $newHeight, $mode);
+}
+
+/**
+ * Resize image.
+ *
+ * @param string|resource $img       File name or image resource
+ * @param int             $newWidth  New width
+ * @param int             $newHeight New height
+ * @param int             $mode      Mode (default: B_IMG_SIZE_RATIO)
+ *
+ * @return resource
+ * @throws \InvalidArgumentException if not valid input resource or file name
+ */
+function b_img_resize($img, int $newWidth = null, int $newHeight = null, int $mode = B_IMG_SIZE_RATIO)
+{
+    return ImageHelper::resize($img, $newWidth, $newHeight, $mode);
+}
+
+/**
+ * Resize support of image.
+ *
+ * @param string|resource $img       File name or image resource
+ * @param int             $newWidth  New width
+ * @param int             $newHeight New height
+ *
+ * @return resource
+ * @throws \InvalidArgumentException if not valid input resource or file name
+ */
+function b_img_support($img, int $newWidth = null, int $newHeight = null)
+{
+    return ImageHelper::resizeSupport($img, $newWidth, $newWidth, $newHeight);
 }
