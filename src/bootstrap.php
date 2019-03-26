@@ -337,5 +337,5 @@ function b_img_resize($img, int $newWidth = null, int $newHeight = null, int $mo
  */
 function b_img_support($img, int $newWidth = null, int $newHeight = null)
 {
-    return ImageHelper::resizeSupport($img, $newWidth, $newWidth, $newHeight);
+    return ImageHelper::resizeSupport($img, $newWidth, $newHeight);
 }
