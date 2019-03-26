@@ -26,12 +26,16 @@
   "require": {
     "php": "^7.1",
     "ext-mbstring": "*",
-    "ext-intl": "*",
-    "ext-gd": "*"
+    "ext-intl": "*"
   },
   "require-dev": {
     "phpunit/phpunit": "^7.5"
   },
+
+  "suggest": {
+    "ext-gd": "Allows to use image util functions"
+  },
+
   "conflict": {
     "berlioz/utils": "*"
   }
