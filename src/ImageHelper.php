@@ -92,10 +92,10 @@ final class ImageHelper
                 if (($newRatio >= $ratio && $mode | self::SIZE_LARGER_EDGE == self::SIZE_LARGER_EDGE) ||
                     ($newRatio <= $ratio && $mode | self::SIZE_LARGER_EDGE != self::SIZE_LARGER_EDGE)) {
                     return ['width'  => $newWidth,
-                            'height' => ceil($newWidth * $originalHeight / $originalWidth)];
+                            'height' => (int) ceil($newWidth * $originalHeight / $originalWidth)];
                 }
 
-                return ['width'  => ceil($newHeight * $originalWidth / $originalHeight),
+                return ['width'  => (int) ceil($newHeight * $originalWidth / $originalHeight),
                         'height' => $newHeight];
             }
 
@@ -107,12 +107,12 @@ final class ImageHelper
         // Only width given, keep ratio so...
         if (!is_null($newWidth)) {
             return ['width'  => $newWidth,
-                    'height' => ceil($newWidth * $originalHeight / $originalWidth)];
+                    'height' => (int) ceil($newWidth * $originalHeight / $originalWidth)];
         }
 
         // Only height given, keep ratio so...
         if (!is_null($newHeight)) {
-            return ['width'  => ceil($newHeight * $originalWidth / $originalHeight),
+            return ['width'  => (int) ceil($newHeight * $originalWidth / $originalHeight),
                     'height' => $newHeight];
         }
 
@@ -187,8 +187,8 @@ final class ImageHelper
                                   $mode | self::RESIZE_COVER == self::RESIZE_COVER ? $mode & self::SIZE_LARGER_EDGE : $mode);
             $newWidth = $newSize['width'];
             $newHeight = $newSize['height'];
-            $posX = ceil(($dstWidth - $newWidth) / 2);
-            $posY = ceil(($dstHeight - $newHeight) / 2);
+            $posX = (int) ceil(($dstWidth - $newWidth) / 2);
+            $posY = (int) ceil(($dstHeight - $newHeight) / 2);
         } else {
             // We calculate size
             $newSize = self::size($width, $height, $newWidth, $newHeight, $mode);
