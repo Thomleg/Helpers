@@ -14,6 +14,11 @@ declare(strict_types=1);
 
 namespace Berlioz\Helpers;
 
+/**
+ * Class ObjectHelper.
+ *
+ * @package Berlioz\Helpers
+ */
 final class ObjectHelper
 {
     /**
