@@ -278,6 +278,8 @@ function b_spinal_case(string $str): string
 /////////////////////
 
 define('B_IMG_SIZE_RATIO', 1);
+define('B_IMG_SIZE_LARGER_EDGE', 2);
+define('B_IMG_RESIZE_COVER', 4);
 
 /**
  * Calculate a gradient destination color.
