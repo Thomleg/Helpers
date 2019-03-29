@@ -169,8 +169,8 @@ final class ImageHelper
             throw new \RuntimeException('Need GD extension');
         }
 
-        // Get current dimensions
-        list($width, $height, $type) = self::getSizeOfImage($img);
+        // Get current dimensions as variables $width, $height and $type
+        extract(self::getSizeOfImage($img));
 
         // Definitions
         $dstWidth = $newWidth;
