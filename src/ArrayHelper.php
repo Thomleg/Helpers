@@ -14,6 +14,10 @@ declare(strict_types=1);
 
 namespace Berlioz\Helpers;
 
+use InvalidArgumentException;
+use SimpleXMLElement;
+use Traversable;
+
 /**
  * Class ArrayHelper.
  *
@@ -45,14 +49,51 @@ final class ArrayHelper
     }
 
     /**
+     * Convert array to an XML element.
+     *
+     * @param $array
+     * @param \SimpleXMLElement|null $root
+     * @param string|null $rootName
+     *
+     * @return \SimpleXMLElement
+     */
+    public static function toXml($array, ?SimpleXMLElement $root = null, ?string $rootName = null): SimpleXMLElement
+    {
+        // Traversable or array
+        if (!(is_array($array) || $array instanceof Traversable)) {
+            throw new InvalidArgumentException('First argument must be an array or instance of \Traversable interface');
+        }
+
+        if (is_null($root)) {
+            $root = new SimpleXMLElement(sprintf('<root/>'));
+        }
+
+        foreach ($array as $key => $value) {
+            if (is_array($value) || $value instanceof Traversable) {
+                if (static::isSequential($value)) {
+                    static::toXml($value, $root, (string)$key);
+                    continue;
+                }
+
+                static::toXml($value, $root->addChild((string)($rootName ?? $key)));
+                continue;
+            }
+
+            $root->addChild((string)($rootName ?? $key), $value);
+        }
+
+        return $root;
+    }
+
+    /**
      * Merge two or more arrays recursively.
      *
      * Difference between native array_merge_recursive() is that
      * b_array_merge_recursive() do not merge strings values
      * into an array.
      *
-     * @param array   $arraySrc Array source
-     * @param array[] $arrays   Arrays to merge
+     * @param array $arraySrc Array source
+     * @param array[] $arrays Arrays to merge
      *
      * @return array
      */
@@ -86,7 +127,7 @@ final class ArrayHelper
      * Traverse array with path and get value.
      *
      * @param iterable $mixed Source
-     * @param string   $path  Path
+     * @param string $path Path
      *
      * @return mixed|null
      * @throws \InvalidArgumentException if first argument is not a traversable data
@@ -94,7 +135,7 @@ final class ArrayHelper
     public static function traverseGet(&$mixed, string $path)
     {
         if (!is_iterable($mixed)) {
-            throw new \InvalidArgumentException('First argument must be a traversable mixed data');
+            throw new InvalidArgumentException('First argument must be a traversable mixed data');
         }
 
         $path = explode('.', $path);
@@ -115,8 +156,8 @@ final class ArrayHelper
      * Traverse array with path and set value.
      *
      * @param iterable $mixed Source
-     * @param string   $path  Path
-     * @param mixed    $value Value
+     * @param string $path Path
+     * @param mixed $value Value
      *
      * @return bool
      * @throws \InvalidArgumentException if first argument is not a traversable data
@@ -124,7 +165,7 @@ final class ArrayHelper
     public static function traverseSet(&$mixed, string $path, $value): bool
     {
         if (!is_iterable($mixed)) {
-            throw new \InvalidArgumentException('First argument must be a traversable mixed data');
+            throw new InvalidArgumentException('First argument must be a traversable mixed data');
         }
 
         $path = explode('.', $path);

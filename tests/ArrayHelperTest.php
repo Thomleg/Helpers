@@ -29,45 +29,108 @@ class ArrayHelperTest extends TestCase
         $this->assertFalse(ArrayHelper::isSequential(['00' => 'foo', '01' => 'bar', '02' => 'hello', '03' => 'world']));
     }
 
+    public function testToXml()
+    {
+        $array = [
+            'foo' => 'Bar',
+            'bar' => [
+                'bar1' => 'Foo1',
+                'bar2' => 'Foo2',
+                'bar3' => 'Foo3',
+            ],
+            'fooSeq' => [
+                'foo',
+                'bar',
+            ],
+        ];
+
+        $xmlExcepted = ArrayHelper::toXml($array);
+        $this->assertEquals(
+            "<?xml version=\"1.0\"?>\n" .
+            "<root><foo>Bar</foo><bar><bar1>Foo1</bar1><bar2>Foo2</bar2><bar3>Foo3</bar3></bar><fooSeq>foo</fooSeq><fooSeq>bar</fooSeq></root>\n",
+            $xmlExcepted->asXML()
+        );
+
+        $array = [
+            'foo',
+            'foo2',
+            'foo3',
+            'bar',
+            'bar2',
+            'bar3',
+        ];
+
+        $xmlExcepted = ArrayHelper::toXml($array, null, 'test');
+        $this->assertEquals(
+            "<?xml version=\"1.0\"?>\n" .
+            "<root><test>foo</test><test>foo2</test><test>foo3</test><test>bar</test><test>bar2</test><test>bar3</test></root>\n",
+            $xmlExcepted->asXML()
+        );
+    }
+
     public function testMergeRecursive()
     {
-        $arr1 = ['foo'  => 'hello',
-                 'bar'  => 'world',
-                 'test' => ['foo', 'bar', 'hello' => 'world']];
+        $arr1 = [
+            'foo' => 'hello',
+            'bar' => 'world',
+            'test' => ['foo', 'bar', 'hello' => 'world'],
+        ];
         $arr2 = ['test' => ['hello', 'foo']];
         $arr3 = ['foo' => 'world'];
-        $arr4 = ['foo'  => 'world',
-                 'test' => ['hello' => 'world2']];
-        $arr5 = ['foo'  => 'world',
-                 'test' => ['hello' => ['world2', 'world3']]];
+        $arr4 = [
+            'foo' => 'world',
+            'test' => ['hello' => 'world2'],
+        ];
+        $arr5 = [
+            'foo' => 'world',
+            'test' => ['hello' => ['world2', 'world3']],
+        ];
 
-        $this->assertEquals(['foo'  => 'hello',
-                             'bar'  => 'world',
-                             'test' => ['foo', 'bar', 'hello', 'foo', 'hello' => 'world']],
-                            ArrayHelper::mergeRecursive($arr1, $arr2));
-        $this->assertEquals(['foo'  => 'world',
-                             'bar'  => 'world',
-                             'test' => ['foo', 'bar', 'hello' => 'world']],
-                            ArrayHelper::mergeRecursive($arr1, $arr3));
-        $this->assertEquals(['foo'  => 'world',
-                             'bar'  => 'world',
-                             'test' => ['foo', 'bar', 'hello' => 'world2']],
-                            ArrayHelper::mergeRecursive($arr1, $arr4));
-        $this->assertEquals(['foo'  => 'world',
-                             'bar'  => 'world',
-                             'test' => ['foo', 'bar', 'hello' => ['world2', 'world3']]],
-                            ArrayHelper::mergeRecursive($arr1, $arr5));
+        $this->assertEquals(
+            [
+                'foo' => 'hello',
+                'bar' => 'world',
+                'test' => ['foo', 'bar', 'hello', 'foo', 'hello' => 'world'],
+            ],
+            ArrayHelper::mergeRecursive($arr1, $arr2)
+        );
+        $this->assertEquals(
+            [
+                'foo' => 'world',
+                'bar' => 'world',
+                'test' => ['foo', 'bar', 'hello' => 'world'],
+            ],
+            ArrayHelper::mergeRecursive($arr1, $arr3)
+        );
+        $this->assertEquals(
+            [
+                'foo' => 'world',
+                'bar' => 'world',
+                'test' => ['foo', 'bar', 'hello' => 'world2'],
+            ],
+            ArrayHelper::mergeRecursive($arr1, $arr4)
+        );
+        $this->assertEquals(
+            [
+                'foo' => 'world',
+                'bar' => 'world',
+                'test' => ['foo', 'bar', 'hello' => ['world2', 'world3']],
+            ],
+            ArrayHelper::mergeRecursive($arr1, $arr5)
+        );
     }
 
     public function testTraverseGet()
     {
         $tArray = [
-            'foo'  => 'bar',
+            'foo' => 'bar',
             'foo2' => [
                 'foo3' => ['foo4' => 'bar4'],
                 'foo5' => 'bar5',
-                'foo6' => ['foo7' => 'bar7',
-                           'foo8' => 'bar8'],
+                'foo6' => [
+                    'foo7' => 'bar7',
+                    'foo8' => 'bar8',
+                ],
             ],
         ];
 
@@ -81,12 +144,14 @@ class ArrayHelperTest extends TestCase
     public function testTraverseSet()
     {
         $tArray = [
-            'foo'  => 'bar',
+            'foo' => 'bar',
             'foo2' => [
                 'foo3' => ['foo4' => 'bar4'],
                 'foo5' => 'bar5',
-                'foo6' => ['foo7' => 'bar7',
-                           'foo8' => 'bar8'],
+                'foo6' => [
+                    'foo7' => 'bar7',
+                    'foo8' => 'bar8',
+                ],
             ],
         ];
 

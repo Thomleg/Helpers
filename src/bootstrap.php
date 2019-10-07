@@ -22,6 +22,19 @@ function b_array_is_sequential(array $array): bool
     return ArrayHelper::isSequential($array);
 }
 
+/**
+ * Convert array to an XML element.
+ *
+ * @param array $array
+ * @param \SimpleXMLElement|null $root
+ * @param string|null $rootName
+ *
+ * @return \SimpleXMLElement
+ */
+function b_array_to_xml(array $array, ?SimpleXMLElement $root = null, ?string $rootName = null): SimpleXMLElement
+{
+    return ArrayHelper::toXml($array, $root, $rootName);
+}
 
 /**
  * Merge two or more arrays recursively.
@@ -30,8 +43,8 @@ function b_array_is_sequential(array $array): bool
  * b_array_merge_recursive() do not merge strings values
  * into an array.
  *
- * @param array   $arraySrc Array source
- * @param array[] $arrays   Arrays to merge
+ * @param array $arraySrc Array source
+ * @param array[] $arrays Arrays to merge
  *
  * @return array
  */
@@ -44,7 +57,7 @@ function b_array_merge_recursive(array $arraySrc, array ...$arrays): array
  * Traverse array with path and get value.
  *
  * @param iterable $mixed Source
- * @param string   $path  Path
+ * @param string $path Path
  *
  * @return mixed|null
  * @throws \InvalidArgumentException if first argument is not a traversable data
@@ -58,8 +71,8 @@ function b_array_traverse_get(&$mixed, string $path)
  * Traverse array with path and set value.
  *
  * @param iterable $mixed Source
- * @param string   $path  Path
- * @param mixed    $value Value
+ * @param string $path Path
+ * @param mixed $value Value
  *
  * @return bool
  * @throws \InvalidArgumentException if first argument is not a traversable data
@@ -78,7 +91,7 @@ function b_array_traverse_set(&$mixed, string $path, $value): bool
  * Get a human see file size.
  *
  * @param int|float $size
- * @param int       $precision
+ * @param int $precision
  *
  * @return string
  */
@@ -109,7 +122,7 @@ function b_size_from_ini(string $size): int
  *
  * @param object $object
  * @param string $property
- * @param bool   $exists
+ * @param bool $exists
  *
  * @return mixed
  * @throws \ReflectionException
@@ -124,7 +137,7 @@ function b_get_property_value($object, string $property, &$exists = null)
  *
  * @param object $object
  * @param string $property
- * @param mixed  $value
+ * @param mixed $value
  *
  * @return bool
  * @throws \ReflectionException
@@ -151,7 +164,7 @@ define('B_TRUNCATE_RIGHT', 3);
 /**
  * Generate an random string.
  *
- * @param int $length  Length of string
+ * @param int $length Length of string
  * @param int $options Options
  *
  * @return string
@@ -213,10 +226,10 @@ function b_minify_html(string $str): string
 /**
  * Truncate string.
  *
- * @param string $str          String
- * @param int    $nbCharacters Number of characters
- * @param int    $where        Where option: B_TRUNCATE_LEFT, B_TRUNCATE_MIDDLE or B_TRUNCATE_RIGHT
- * @param string $separator    Separator string
+ * @param string $str String
+ * @param int $nbCharacters Number of characters
+ * @param int $where Where option: B_TRUNCATE_LEFT, B_TRUNCATE_MIDDLE or B_TRUNCATE_RIGHT
+ * @param string $separator Separator string
  *
  * @return string
  */
@@ -284,9 +297,9 @@ define('B_IMG_RESIZE_COVER', 4);
 /**
  * Calculate a gradient destination color.
  *
- * @param string $color        Source color (hex)
- * @param string $colorToAdd   Color to add (hex)
- * @param float  $percentToAdd Percent to add
+ * @param string $color Source color (hex)
+ * @param string $colorToAdd Color to add (hex)
+ * @param float $percentToAdd Percent to add
  *
  * @return string
  */
@@ -298,11 +311,11 @@ function b_gradient_color(string $color, string $colorToAdd, float $percentToAdd
 /**
  * Calculate sizes with new given width and height.
  *
- * @param int $originalWidth  Original width
+ * @param int $originalWidth Original width
  * @param int $originalHeight Original height
- * @param int $newWidth       New width
- * @param int $newHeight      New height
- * @param int $mode           Mode (default: B_IMG_SIZE_RATIO)
+ * @param int $newWidth New width
+ * @param int $newHeight New height
+ * @param int $mode Mode (default: B_IMG_SIZE_RATIO)
  *
  * @return array
  */
@@ -314,10 +327,10 @@ function b_img_size(int $originalWidth, int $originalHeight, int $newWidth = nul
 /**
  * Resize image.
  *
- * @param string|resource $img       File name or image resource
- * @param int             $newWidth  New width
- * @param int             $newHeight New height
- * @param int             $mode      Mode (default: B_IMG_SIZE_RATIO)
+ * @param string|resource $img File name or image resource
+ * @param int $newWidth New width
+ * @param int $newHeight New height
+ * @param int $mode Mode (default: B_IMG_SIZE_RATIO)
  *
  * @return resource
  * @throws \InvalidArgumentException if not valid input resource or file name
@@ -330,9 +343,9 @@ function b_img_resize($img, int $newWidth = null, int $newHeight = null, int $mo
 /**
  * Resize support of image.
  *
- * @param string|resource $img       File name or image resource
- * @param int             $newWidth  New width
- * @param int             $newHeight New height
+ * @param string|resource $img File name or image resource
+ * @param int $newWidth New width
+ * @param int $newHeight New height
  *
  * @return resource
  * @throws \InvalidArgumentException if not valid input resource or file name
