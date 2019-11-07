@@ -152,10 +152,11 @@ function b_set_property_value($object, string $property, $value): bool
 /// STRING HELPER ///
 /////////////////////
 
-define('B_STR_RANDOM_NUMBER', 1);
-define('B_STR_RANDOM_SPECIAL_CHARACTERS', 2);
-define('B_STR_RANDOM_LOWER_CASE', 4);
-define('B_STR_RANDOM_NEED_ALL', 64);
+define('B_STR_RANDOM_ALPHA', 1);
+define('B_STR_RANDOM_NUMERIC', 2);
+define('B_STR_RANDOM_SPECIAL_CHARACTERS', 4);
+define('B_STR_RANDOM_LOWER_CASE', 8);
+define('B_STR_RANDOM_NEED_ALL', 16);
 define('B_TRUNCATE_LEFT', 1);
 define('B_TRUNCATE_MIDDLE', 2);
 define('B_TRUNCATE_RIGHT', 3);
@@ -169,7 +170,7 @@ define('B_TRUNCATE_RIGHT', 3);
  *
  * @return string
  */
-function b_str_random(int $length = 12, int $options = B_STR_RANDOM_NUMBER | B_STR_RANDOM_SPECIAL_CHARACTERS | B_STR_RANDOM_NEED_ALL): string
+function b_str_random(int $length = 12, int $options = B_STR_RANDOM_ALPHA | B_STR_RANDOM_NUMERIC | B_STR_RANDOM_SPECIAL_CHARACTERS | B_STR_RANDOM_NEED_ALL): string
 {
     return StringHelper::random($length, $options);
 }

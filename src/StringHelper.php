@@ -40,7 +40,7 @@ final class StringHelper
      *
      * @return string
      */
-    public static function random(int $length = 12, int $options = StringHelper::RANDOM_NUMERIC | StringHelper::RANDOM_ALPHA | StringHelper::RANDOM_SPECIAL_CHARACTERS | StringHelper::RANDOM_NEED_ALL): string
+    public static function random(int $length = 12, int $options = StringHelper::RANDOM_ALPHA | StringHelper::RANDOM_NUMERIC | StringHelper::RANDOM_SPECIAL_CHARACTERS | StringHelper::RANDOM_NEED_ALL): string
     {
         // Options
         $withAlpha = ($options & StringHelper::RANDOM_ALPHA) == StringHelper::RANDOM_ALPHA;
