@@ -24,21 +24,36 @@ class StringHelperTest extends TestCase
         $this->assertEquals(256, mb_strlen(StringHelper::random(256)));
         $this->assertEquals(1024, mb_strlen(StringHelper::random(1024)));
 
-        // Only characters
-        $this->assertRegExp('/^[a-z]+$/', StringHelper::random(32, StringHelper::RANDOM_LOWER_CASE));
-
-        // With special characters & Not required
-        $str = StringHelper::random(32, StringHelper::RANDOM_SPECIAL_CHARACTERS);
-        $this->assertRegExp('/^[^0-9]+$/', $str);
-
-        // With numbers & special characters & Required
-        $str = StringHelper::random(32,
-                                    StringHelper::RANDOM_NUMBER |
-                                    StringHelper::RANDOM_SPECIAL_CHARACTERS |
-                                    StringHelper::RANDOM_NEED_ALL);
-        $this->assertRegExp('/[0-9]+/', $str);
+        // Only alpha lower case
+        $str = StringHelper::random(32, StringHelper::RANDOM_ALPHA | StringHelper::RANDOM_NEED_ALL);
+        $this->assertRegExp('/^[a-z]+$/i', $str);
         $this->assertRegExp('/[a-z]+/', $str);
         $this->assertRegExp('/[A-Z]+/', $str);
+
+        // Only alpha lower case
+        $this->assertRegExp('/^[a-z]+$/', StringHelper::random(32, StringHelper::RANDOM_LOWER_CASE));
+
+        // With alpha & numeric
+        $str = StringHelper::random(32, StringHelper::RANDOM_ALPHA | StringHelper::RANDOM_NUMERIC);
+        $this->assertRegExp('/^[a-z0-9]+$/i', $str);
+
+        // With numeric
+        $str = StringHelper::random(32, StringHelper::RANDOM_NUMERIC);
+        $this->assertRegExp('/^[0-9]+$/', $str);
+
+        // With special alpha & Not required
+        $str = StringHelper::random(32, StringHelper::RANDOM_SPECIAL_CHARACTERS);
+        $this->assertRegExp('/^[^a-z0-9]+$/i', $str);
+
+        // With only numeric & special alpha & required
+        $str = StringHelper::random(
+            32,
+            StringHelper::RANDOM_NUMERIC |
+            StringHelper::RANDOM_SPECIAL_CHARACTERS |
+            StringHelper::RANDOM_NEED_ALL
+        );
+        $this->assertRegExp('/[0-9]+/', $str);
+        $this->assertNotRegExp('/[a-z]+/i', $str);
         $this->assertRegExp('/[^0-9a-z]+/i', $str);
     }
 
@@ -63,26 +78,42 @@ class StringHelperTest extends TestCase
 
     public function testMinifyHtml()
     {
-        $this->assertEquals("<p> Test </p> <p> Test test </p>",
-                            StringHelper::minifyHtml("<p>\nTest\n</p>\n<p>\nTest\n  test\n</p>"));
-        $this->assertEquals("<p> Test </p> <textarea>Test   test\nTest\n\n</textarea> <p> Test test </p>",
-                            StringHelper::minifyHtml("<p>\nTest\n</p>\n<textarea>Test   test\nTest\n\n</textarea>\n<p>\nTest\n  test\n</p>"));
+        $this->assertEquals(
+            "<p> Test </p> <p> Test test </p>",
+            StringHelper::minifyHtml("<p>\nTest\n</p>\n<p>\nTest\n  test\n</p>")
+        );
+        $this->assertEquals(
+            "<p> Test </p> <textarea>Test   test\nTest\n\n</textarea> <p> Test test </p>",
+            StringHelper::minifyHtml("<p>\nTest\n</p>\n<textarea>Test   test\nTest\n\n</textarea>\n<p>\nTest\n  test\n</p>")
+        );
     }
 
     public function testTruncate()
     {
-        $this->assertEquals('Domi ne agmina quos spatia praet ...',
-                            StringHelper::truncate('Domi ne agmina quos spatia praetermitto ut equos silices quod.',
-                                                   32,
-                                                   StringHelper::TRUNCATE_RIGHT));
-        $this->assertEquals('Domi ne agmina q ... os silices quod.',
-                            StringHelper::truncate('Domi ne agmina quos spatia praetermitto ut equos silices quod.',
-                                                   32,
-                                                   StringHelper::TRUNCATE_MIDDLE));
-        $this->assertEquals('... etermitto ut equos silices quod.',
-                            StringHelper::truncate('Domi ne agmina quos spatia praetermitto ut equos silices quod.',
-                                                   32,
-                                                   StringHelper::TRUNCATE_LEFT));
+        $this->assertEquals(
+            'Domi ne agmina quos spatia praet ...',
+            StringHelper::truncate(
+                'Domi ne agmina quos spatia praetermitto ut equos silices quod.',
+                32,
+                StringHelper::TRUNCATE_RIGHT
+            )
+        );
+        $this->assertEquals(
+            'Domi ne agmina q ... os silices quod.',
+            StringHelper::truncate(
+                'Domi ne agmina quos spatia praetermitto ut equos silices quod.',
+                32,
+                StringHelper::TRUNCATE_MIDDLE
+            )
+        );
+        $this->assertEquals(
+            '... etermitto ut equos silices quod.',
+            StringHelper::truncate(
+                'Domi ne agmina quos spatia praetermitto ut equos silices quod.',
+                32,
+                StringHelper::TRUNCATE_LEFT
+            )
+        );
     }
 
     public function testPascalCase()
