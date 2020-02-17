@@ -22,15 +22,15 @@ namespace Berlioz\Helpers;
 final class StringHelper
 {
     // Random
-    const RANDOM_ALPHA = 1;
-    const RANDOM_NUMERIC = 2;
-    const RANDOM_SPECIAL_CHARACTERS = 4;
-    const RANDOM_LOWER_CASE = 8;
-    const RANDOM_NEED_ALL = 16;
+    public const RANDOM_ALPHA = 1;
+    public const RANDOM_NUMERIC = 2;
+    public const RANDOM_SPECIAL_CHARACTERS = 4;
+    public const RANDOM_LOWER_CASE = 8;
+    public const RANDOM_NEED_ALL = 16;
     // Truncate
-    const TRUNCATE_LEFT = 1;
-    const TRUNCATE_MIDDLE = 2;
-    const TRUNCATE_RIGHT = 3;
+    public const TRUNCATE_LEFT = 1;
+    public const TRUNCATE_MIDDLE = 2;
+    public const TRUNCATE_RIGHT = 3;
 
     /**
      * Generate an random string.
@@ -40,8 +40,10 @@ final class StringHelper
      *
      * @return string
      */
-    public static function random(int $length = 12, int $options = StringHelper::RANDOM_ALPHA | StringHelper::RANDOM_NUMERIC | StringHelper::RANDOM_SPECIAL_CHARACTERS | StringHelper::RANDOM_NEED_ALL): string
-    {
+    public static function random(
+        int $length = 12,
+        int $options = StringHelper::RANDOM_ALPHA | StringHelper::RANDOM_NUMERIC | StringHelper::RANDOM_SPECIAL_CHARACTERS | StringHelper::RANDOM_NEED_ALL
+    ): string {
         // Options
         $withAlpha = ($options & StringHelper::RANDOM_ALPHA) == StringHelper::RANDOM_ALPHA;
         $withNumeric = ($options & StringHelper::RANDOM_NUMERIC) == StringHelper::RANDOM_NUMERIC;
@@ -219,8 +221,12 @@ EOT;
      *
      * @return string
      */
-    public static function truncate(string $str, int $nbCharacters = 128, int $where = StringHelper::TRUNCATE_RIGHT, string $separator = '...'): string
-    {
+    public static function truncate(
+        string $str,
+        int $nbCharacters = 128,
+        int $where = StringHelper::TRUNCATE_RIGHT,
+        string $separator = '...'
+    ): string {
         $str = html_entity_decode($str);
 
         if (mb_strlen(trim($str)) > 0 && mb_strlen(trim($str)) > $nbCharacters) {

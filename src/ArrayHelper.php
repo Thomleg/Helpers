@@ -64,7 +64,7 @@ final class ArrayHelper
             throw new InvalidArgumentException('First argument must be an array or instance of \Traversable interface');
         }
 
-        if (is_null($root)) {
+        if (null === $root) {
             $root = new SimpleXMLElement(sprintf('<root/>'));
         }
 
@@ -124,15 +124,15 @@ final class ArrayHelper
     }
 
     /**
-     * Traverse array with path and get value.
+     * Traverse array with path and return if path exists.
      *
      * @param iterable $mixed Source
      * @param string $path Path
      *
-     * @return mixed|null
+     * @return bool
      * @throws \InvalidArgumentException if first argument is not a traversable data
      */
-    public static function traverseGet(&$mixed, string $path)
+    public static function traverseExists(&$mixed, string $path): bool
     {
         if (!is_iterable($mixed)) {
             throw new InvalidArgumentException('First argument must be a traversable mixed data');
@@ -143,7 +143,37 @@ final class ArrayHelper
         $temp = &$mixed;
         foreach ($path as $key) {
             if (!is_iterable($temp)) {
-                return null;
+                return false;
+            }
+
+            $temp = &$temp[$key];
+        }
+
+        return true;
+    }
+
+    /**
+     * Traverse array with path and get value.
+     *
+     * @param iterable $mixed Source
+     * @param string $path Path
+     * @param mixed $default Default value
+     *
+     * @return mixed|null
+     * @throws \InvalidArgumentException if first argument is not a traversable data
+     */
+    public static function traverseGet(&$mixed, string $path, $default = null)
+    {
+        if (!is_iterable($mixed)) {
+            throw new InvalidArgumentException('First argument must be a traversable mixed data');
+        }
+
+        $path = explode('.', $path);
+
+        $temp = &$mixed;
+        foreach ($path as $key) {
+            if (!is_iterable($temp)) {
+                return $default;
             }
 
             $temp = &$temp[$key];
@@ -172,7 +202,7 @@ final class ArrayHelper
 
         $temp = &$mixed;
         foreach ($path as $key) {
-            if (!is_null($temp) && !is_iterable($temp)) {
+            if (null !== $temp && !is_iterable($temp)) {
                 return false;
             }
 

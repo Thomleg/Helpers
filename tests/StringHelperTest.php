@@ -61,7 +61,10 @@ class StringHelperTest extends TestCase
     {
         $this->assertEquals("<p>Test</p>\n<p>Test</p>", StringHelper::nl2p("Test\n\nTest"));
         $this->assertEquals("<p>Test<br />\nTest</p>", StringHelper::nl2p("Test\nTest"));
-        $this->assertEquals("<p>Test</p>\n<p>Test<br />\nTest</p>\n<p>Test</p>", StringHelper::nl2p("Test\n\nTest\nTest\n\nTest"));
+        $this->assertEquals(
+            "<p>Test</p>\n<p>Test<br />\nTest</p>\n<p>Test</p>",
+            StringHelper::nl2p("Test\n\nTest\nTest\n\nTest")
+        );
     }
 
     public function testRemoveAccents()
@@ -84,7 +87,9 @@ class StringHelperTest extends TestCase
         );
         $this->assertEquals(
             "<p> Test </p> <textarea>Test   test\nTest\n\n</textarea> <p> Test test </p>",
-            StringHelper::minifyHtml("<p>\nTest\n</p>\n<textarea>Test   test\nTest\n\n</textarea>\n<p>\nTest\n  test\n</p>")
+            StringHelper::minifyHtml(
+                "<p>\nTest\n</p>\n<textarea>Test   test\nTest\n\n</textarea>\n<p>\nTest\n  test\n</p>"
+            )
         );
     }
 

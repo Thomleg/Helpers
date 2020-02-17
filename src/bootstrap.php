@@ -54,17 +54,32 @@ function b_array_merge_recursive(array $arraySrc, array ...$arrays): array
 }
 
 /**
- * Traverse array with path and get value.
+ * Traverse array with path and return if path exists.
  *
  * @param iterable $mixed Source
  * @param string $path Path
  *
+ * @return bool
+ * @throws \InvalidArgumentException if first argument is not a traversable data
+ */
+function b_array_traverse_exists(&$mixed, string $path)
+{
+    return ArrayHelper::traverseExists($mixed, $path);
+}
+
+/**
+ * Traverse array with path and get value.
+ *
+ * @param iterable $mixed Source
+ * @param string $path Path
+ * @param mixed $default Default value
+ *
  * @return mixed|null
  * @throws \InvalidArgumentException if first argument is not a traversable data
  */
-function b_array_traverse_get(&$mixed, string $path)
+function b_array_traverse_get(&$mixed, string $path, $default = null)
 {
-    return ArrayHelper::traverseGet($mixed, $path);
+    return ArrayHelper::traverseGet($mixed, $path, $default);
 }
 
 /**
@@ -170,8 +185,10 @@ define('B_TRUNCATE_RIGHT', 3);
  *
  * @return string
  */
-function b_str_random(int $length = 12, int $options = B_STR_RANDOM_ALPHA | B_STR_RANDOM_NUMERIC | B_STR_RANDOM_SPECIAL_CHARACTERS | B_STR_RANDOM_NEED_ALL): string
-{
+function b_str_random(
+    int $length = 12,
+    int $options = B_STR_RANDOM_ALPHA | B_STR_RANDOM_NUMERIC | B_STR_RANDOM_SPECIAL_CHARACTERS | B_STR_RANDOM_NEED_ALL
+): string {
     return StringHelper::random($length, $options);
 }
 
@@ -234,8 +251,12 @@ function b_minify_html(string $str): string
  *
  * @return string
  */
-function b_str_truncate(string $str, int $nbCharacters = 128, int $where = B_TRUNCATE_RIGHT, string $separator = '...'): string
-{
+function b_str_truncate(
+    string $str,
+    int $nbCharacters = 128,
+    int $where = B_TRUNCATE_RIGHT,
+    string $separator = '...'
+): string {
     return StringHelper::truncate($str, $nbCharacters, $where, $separator);
 }
 
@@ -320,8 +341,13 @@ function b_gradient_color(string $color, string $colorToAdd, float $percentToAdd
  *
  * @return array
  */
-function b_img_size(int $originalWidth, int $originalHeight, int $newWidth = null, int $newHeight = null, int $mode = B_IMG_SIZE_RATIO): array
-{
+function b_img_size(
+    int $originalWidth,
+    int $originalHeight,
+    int $newWidth = null,
+    int $newHeight = null,
+    int $mode = B_IMG_SIZE_RATIO
+): array {
     return ImageHelper::size($originalWidth, $originalHeight, $newWidth, $newHeight, $mode);
 }
 

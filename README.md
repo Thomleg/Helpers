@@ -16,7 +16,11 @@ Many PHP functions used in the Berlioz framework, which you can use in your deve
   b_array_merge_recursive() do not merge strings values
   into an array.
 
-- `b_array_traverse_get(&$mixed, string $path): mixed|null`
+- `b_array_traverse_exists(&$mixed, string $path): bool`
+
+  Traverse array with path and return if path exists.
+
+- `b_array_traverse_get(&$mixed, string $path, $default = null): mixed|null`
 
   Traverse array with path and get value.
 

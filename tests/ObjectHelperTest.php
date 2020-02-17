@@ -20,8 +20,7 @@ class ObjectHelperTest extends TestCase
     public function provider()
     {
         return
-            new class()
-            {
+            new class() {
                 private $foo = 'bar';
                 private $foo2 = 'bar2';
                 public $foo3 = 'bar3';

@@ -14,6 +14,10 @@ declare(strict_types=1);
 
 namespace Berlioz\Helpers;
 
+use BadMethodCallException;
+use InvalidArgumentException;
+use ReflectionObject;
+
 /**
  * Class ObjectHelper.
  *
@@ -26,7 +30,7 @@ final class ObjectHelper
      *
      * @param object $object
      * @param string $property
-     * @param bool   $exists
+     * @param bool $exists
      *
      * @return mixed
      * @throws \ReflectionException
@@ -36,13 +40,14 @@ final class ObjectHelper
         $exists = false;
 
         if (!is_object($object)) {
-            throw new \InvalidArgumentException('Method excepts an object in first argument');
+            throw new InvalidArgumentException('Method excepts an object in first argument');
         }
 
-        $reflectionObject = new \ReflectionObject($object);
+        $reflectionObject = new ReflectionObject($object);
 
         // If property is public
-        if ($exists = ($reflectionObject->hasProperty($property) && $reflectionObject->getProperty($property)->isPublic())) {
+        if ($exists = ($reflectionObject->hasProperty($property) && $reflectionObject->getProperty($property)->isPublic(
+            ))) {
             return $object->$property;
         }
 
@@ -54,15 +59,17 @@ final class ObjectHelper
         }
 
         // Different naming convention
-        $methods = [sprintf('get%s', StringHelper::pascalCase($property)),
-                    sprintf('is%s', StringHelper::pascalCase($property)),
-                    sprintf('get_%s', StringHelper::snakeCase($property)),
-                    sprintf('is_%s', StringHelper::snakeCase($property))];
+        $methods = [
+            sprintf('get%s', StringHelper::pascalCase($property)),
+            sprintf('is%s', StringHelper::pascalCase($property)),
+            sprintf('get_%s', StringHelper::snakeCase($property)),
+            sprintf('is_%s', StringHelper::snakeCase($property))
+        ];
 
         // Test different formats
         foreach ($methods as $method) {
             if ($exists = ($reflectionObject->hasMethod($method) &&
-                           $reflectionObject->getMethod($method)->isPublic())) {
+                $reflectionObject->getMethod($method)->isPublic())) {
                 return $reflectionObject->getMethod($method)->invoke($object);
             }
         }
@@ -74,7 +81,7 @@ final class ObjectHelper
                     $exists = true;
 
                     return $reflectionObject->getMethod('__call')->invoke($object, $method);
-                } catch (\BadMethodCallException $e) {
+                } catch (BadMethodCallException $e) {
                 } finally {
                     $exists = false;
                 }
@@ -89,7 +96,7 @@ final class ObjectHelper
      *
      * @param object $object
      * @param string $property
-     * @param mixed  $value
+     * @param mixed $value
      *
      * @return bool
      * @throws \ReflectionException
@@ -97,13 +104,14 @@ final class ObjectHelper
     public static function setPropertyValue($object, string $property, $value): bool
     {
         if (!is_object($object)) {
-            throw new \InvalidArgumentException('Method excepts an object in first argument');
+            throw new InvalidArgumentException('Method excepts an object in first argument');
         }
 
-        $reflectionObject = new \ReflectionObject($object);
+        $reflectionObject = new ReflectionObject($object);
 
         // If property is public
-        if ($bReturn = ($reflectionObject->hasProperty($property) && $reflectionObject->getProperty($property)->isPublic())) {
+        if ($bReturn = ($reflectionObject->hasProperty($property) &&
+            $reflectionObject->getProperty($property)->isPublic())) {
             $object->$property = $value;
 
             return true;
@@ -119,15 +127,16 @@ final class ObjectHelper
         }
 
         // Different naming convention
-        $methods = [sprintf('set%s', StringHelper::pascalCase($property)),
-                    sprintf('set_%s', StringHelper::snakeCase($property))];
+        $methods = [
+            sprintf('set%s', StringHelper::pascalCase($property)),
+            sprintf('set_%s', StringHelper::snakeCase($property))
+        ];
 
         // Test different formats
         foreach ($methods as $method) {
             if ($reflectionObject->hasMethod($method) &&
                 $reflectionObject->getMethod($method)->isPublic()) {
                 $reflectionObject->getMethod($method)->invoke($object, $value);
-
                 return true;
             }
         }
@@ -139,7 +148,7 @@ final class ObjectHelper
                     $reflectionObject->getMethod('__call')->invoke($object, $method, [$value]);
 
                     return true;
-                } catch (\BadMethodCallException $e) {
+                } catch (BadMethodCallException $e) {
                 }
             }
         }

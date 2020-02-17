@@ -15,6 +15,26 @@ declare(strict_types=1);
 
 namespace Berlioz\Helpers;
 
+use InvalidArgumentException;
+use RuntimeException;
+
+use function getimagesize;
+use function imagealphablending;
+use function imagecolorallocate;
+use function imagecopyresampled;
+use function imagecreatefromgif;
+use function imagecreatefromjpeg;
+use function imagecreatefrompng;
+use function imagecreatetruecolor;
+use function imagedestroy;
+use function imagefill;
+use function imagesavealpha;
+use function imagesx;
+use function imagesy;
+
+use const IMAGETYPE_GIF;
+use const IMAGETYPE_PNG;
+
 /**
  * Class ImageHelper.
  *
@@ -22,16 +42,16 @@ namespace Berlioz\Helpers;
  */
 final class ImageHelper
 {
-    const SIZE_RATIO = 1;
-    const SIZE_LARGER_EDGE = 2;
-    const RESIZE_COVER = 4;
+    public const SIZE_RATIO = 1;
+    public const SIZE_LARGER_EDGE = 2;
+    public const RESIZE_COVER = 4;
 
     /**
      * Calculate a gradient destination color.
      *
-     * @param string $color        Source color (hex)
-     * @param string $colorToAdd   Color to add (hex)
-     * @param float  $percentToAdd Percent to add
+     * @param string $color Source color (hex)
+     * @param string $colorToAdd Color to add (hex)
+     * @param float $percentToAdd Percent to add
      *
      * @return string
      */
@@ -60,65 +80,96 @@ final class ImageHelper
         // Add percent
         for ($i = 0; $i < 3; $i++) {
             if ($rgb1[$i] < $rgb2[$i]) {
-                $rgb_final[$i] = round(((max($rgb1[$i], $rgb2[$i]) - min($rgb1[$i], $rgb2[$i])) / 100) * $percentToAdd + min($rgb1[$i], $rgb2[$i]));
+                $rgb_final[$i] = round(
+                    ((max($rgb1[$i], $rgb2[$i]) - min($rgb1[$i], $rgb2[$i])) / 100) * $percentToAdd + min(
+                        $rgb1[$i],
+                        $rgb2[$i]
+                    )
+                );
             } else {
-                $rgb_final[$i] = round(max($rgb1[$i], $rgb2[$i]) - ((max($rgb1[$i], $rgb2[$i]) - min($rgb1[$i], $rgb2[$i])) / 100) * $percentToAdd);
+                $rgb_final[$i] = round(
+                    max($rgb1[$i], $rgb2[$i]) - ((max($rgb1[$i], $rgb2[$i]) - min(
+                                $rgb1[$i],
+                                $rgb2[$i]
+                            )) / 100) * $percentToAdd
+                );
             }
         }
 
-        return "#" . sprintf("%02s", dechex($rgb_final[0])) . sprintf("%02s", dechex($rgb_final[1])) . sprintf("%02s", dechex($rgb_final[2]));
+        return "#" . sprintf("%02s", dechex($rgb_final[0])) . sprintf("%02s", dechex($rgb_final[1])) . sprintf(
+                "%02s",
+                dechex(
+                    $rgb_final[2]
+                )
+            );
     }
 
     /**
      * Calculate sizes with new given width and height.
      *
-     * @param int $originalWidth  Original width
+     * @param int $originalWidth Original width
      * @param int $originalHeight Original height
-     * @param int $newWidth       New width
-     * @param int $newHeight      New height
-     * @param int $mode           Mode (default: B_IMG_SIZE_RATIO)
+     * @param int $newWidth New width
+     * @param int $newHeight New height
+     * @param int $mode Mode (default: B_IMG_SIZE_RATIO)
      *
      * @return array
      */
-    public static function size(int $originalWidth, int $originalHeight, int $newWidth = null, int $newHeight = null, int $mode = self::SIZE_RATIO): array
-    {
-        // All sizes are given
-        if (!is_null($newWidth) && !is_null($newHeight)) {
-            // We keep ratio
-            if ($mode | self::SIZE_RATIO == self::SIZE_RATIO) {
-                $ratio = $originalWidth / $originalHeight;
-                $newRatio = $newWidth / $newHeight;
-
-                if (($newRatio >= $ratio && $mode | self::SIZE_LARGER_EDGE == self::SIZE_LARGER_EDGE) ||
-                    ($newRatio <= $ratio && $mode | self::SIZE_LARGER_EDGE != self::SIZE_LARGER_EDGE)) {
-                    return ['width'  => $newWidth,
-                            'height' => (int) ceil($newWidth * $originalHeight / $originalWidth)];
-                }
-
-                return ['width'  => (int) ceil($newHeight * $originalWidth / $originalHeight),
-                        'height' => $newHeight];
-            }
-
-            // We don't keep ratio, and all sizes are given, so we force new size !
-            return ['width'  => $newWidth,
-                    'height' => $newHeight];
+    public static function size(
+        int $originalWidth,
+        int $originalHeight,
+        int $newWidth = null,
+        int $newHeight = null,
+        int $mode = self::SIZE_RATIO
+    ): array {
+        // No size given, we keep original sizes!
+        if (null === $newWidth && null === $newHeight) {
+            return [
+                'width' => $originalWidth,
+                'height' => $originalHeight
+            ];
         }
 
         // Only width given, keep ratio so...
-        if (!is_null($newWidth)) {
-            return ['width'  => $newWidth,
-                    'height' => (int) ceil($newWidth * $originalHeight / $originalWidth)];
+        if (null === $newHeight) {
+            return [
+                'width' => $newWidth,
+                'height' => (int)ceil($newWidth * $originalHeight / $originalWidth)
+            ];
         }
 
         // Only height given, keep ratio so...
-        if (!is_null($newHeight)) {
-            return ['width'  => (int) ceil($newHeight * $originalWidth / $originalHeight),
-                    'height' => $newHeight];
+        if (null === $newWidth) {
+            return [
+                'width' => (int)ceil($newHeight * $originalWidth / $originalHeight),
+                'height' => $newHeight
+            ];
         }
 
-        // No size given, we keep original sizes !
-        return ['width'  => $originalWidth,
-                'height' => $originalHeight];
+        // We keep ratio?
+        if (($mode & self::SIZE_RATIO) == self::SIZE_RATIO) {
+            $ratio = $originalWidth / $originalHeight;
+            $newRatio = $newWidth / $newHeight;
+
+            if (($newRatio >= $ratio && ($mode & self::SIZE_LARGER_EDGE) == self::SIZE_LARGER_EDGE) ||
+                ($newRatio <= $ratio && ($mode & self::SIZE_LARGER_EDGE) != self::SIZE_LARGER_EDGE)) {
+                return [
+                    'width' => $newWidth,
+                    'height' => (int)ceil($newWidth * $originalHeight / $originalWidth)
+                ];
+            }
+
+            return [
+                'width' => (int)ceil($newHeight * $originalWidth / $originalHeight),
+                'height' => $newHeight
+            ];
+        }
+
+        // We don't keep ratio, and all sizes are given, so we force new size !
+        return [
+            'width' => $newWidth,
+            'height' => $newHeight
+        ];
     }
 
     /**
@@ -129,36 +180,40 @@ final class ImageHelper
      * @return array
      * @throws \InvalidArgumentException if not valid input resource or file name
      */
-    private static function getSizeOfImage($img): array
+    public static function getImageSize($img): array
     {
         if (is_string($img)) {
             if (!file_exists($img)) {
-                throw new \InvalidArgumentException(sprintf('File name "%s" does not exists', $img));
+                throw new InvalidArgumentException(sprintf('File name "%s" does not exists', $img));
             }
 
-            list($width, $height, $type) = \getimagesize($img);
+            list($width, $height, $type) = getimagesize($img);
 
-            return ['width'  => $width,
-                    'height' => $height,
-                    'type'   => $type];
+            return [
+                'width' => $width,
+                'height' => $height,
+                'type' => $type
+            ];
         }
 
         if (is_resource($img)) {
-            return ['width'  => \imagesx($img),
-                    'height' => \imagesy($img),
-                    'type'   => 'RESOURCE'];
+            return [
+                'width' => imagesx($img),
+                'height' => imagesy($img),
+                'type' => 'RESOURCE'
+            ];
         }
 
-        throw new \InvalidArgumentException('Need valid resource of image or file name');
+        throw new InvalidArgumentException('Need valid resource of image or file name');
     }
 
     /**
      * Resize image.
      *
-     * @param string|resource $img       File name or image resource
-     * @param int             $newWidth  New width
-     * @param int             $newHeight New height
-     * @param int             $mode      Mode (default: B_IMG_SIZE_RATIO)
+     * @param string|resource $img File name or image resource
+     * @param int $newWidth New width
+     * @param int $newHeight New height
+     * @param int $mode Mode (default: B_IMG_SIZE_RATIO)
      *
      * @return resource
      * @throws \InvalidArgumentException if not valid input resource or file name
@@ -166,11 +221,11 @@ final class ImageHelper
     public static function resize($img, int $newWidth = null, int $newHeight = null, int $mode = self::SIZE_RATIO)
     {
         if (!extension_loaded('gd')) {
-            throw new \RuntimeException('Need GD extension');
+            throw new RuntimeException('Need GD extension');
         }
 
         // Get current dimensions as variables $width, $height and $type
-        extract(self::getSizeOfImage($img));
+        list($width, $height, $type) = array_values(self::getImageSize($img));
 
         // Definitions
         $dstWidth = $newWidth;
@@ -179,16 +234,18 @@ final class ImageHelper
         $posY = 0;
 
         // We calculate cover sizes
-        if ($mode === self::RESIZE_COVER && !is_null($newWidth) && !is_null($newHeight)) {
-            $newSize = self::size($width,
-                                  $height,
-                                  $newWidth,
-                                  $newHeight,
-                                  $mode | self::RESIZE_COVER == self::RESIZE_COVER ? $mode & self::SIZE_LARGER_EDGE : $mode);
+        if ($mode === self::RESIZE_COVER && null !== $newWidth && null !== $newHeight) {
+            $newSize = self::size(
+                $width,
+                $height,
+                $newWidth,
+                $newHeight,
+                ($mode & self::RESIZE_COVER) == self::RESIZE_COVER ? $mode & self::SIZE_LARGER_EDGE : $mode
+            );
             $newWidth = $newSize['width'];
             $newHeight = $newSize['height'];
-            $posX = (int) ceil(($dstWidth - $newWidth) / 2);
-            $posY = (int) ceil(($dstHeight - $newHeight) / 2);
+            $posX = (int)ceil(($dstWidth - $newWidth) / 2);
+            $posY = (int)ceil(($dstHeight - $newHeight) / 2);
         } else {
             // We calculate size
             $newSize = self::size($width, $height, $newWidth, $newHeight, $mode);
@@ -197,28 +254,14 @@ final class ImageHelper
         }
 
         // Create image thumb
-        $thumb = \imagecreatetruecolor($dstWidth, $dstHeight);
-        switch ($type) {
-            case 'RESOURCE':
-                $source = $img;
-                break;
-            case \IMAGETYPE_PNG:
-                $source = \imagecreatefrompng($img);
-                \imagealphablending($thumb, false);
-                \imagesavealpha($thumb, true);
-                break;
-            case \IMAGETYPE_GIF:
-                $source = \imagecreatefromgif($img);
-                break;
-            default:
-                $source = \imagecreatefromjpeg($img);
-        }
+        $thumb = imagecreatetruecolor($dstWidth, $dstHeight);
+        $source = static::createImageFromType($type, $img);
 
         // Resizing
-        \imagecopyresampled($thumb, $source, $posX, $posY, 0, 0, $newWidth, $newHeight, $width, $height);
+        imagecopyresampled($thumb, $source, $posX, $posY, 0, 0, $newWidth, $newHeight, $width, $height);
 
         // Erase source resource
-        \imagedestroy($source);
+        imagedestroy($source);
 
         return $thumb;
     }
@@ -226,9 +269,9 @@ final class ImageHelper
     /**
      * Resize support of image.
      *
-     * @param string|resource $img       File name or image resource
-     * @param int             $newWidth  New width
-     * @param int             $newHeight New height
+     * @param string|resource $img File name or image resource
+     * @param int $newWidth New width
+     * @param int $newHeight New height
      *
      * @return resource
      * @throws \InvalidArgumentException if not valid input resource or file name
@@ -236,35 +279,20 @@ final class ImageHelper
     public static function resizeSupport($img, int $newWidth = null, int $newHeight = null)
     {
         if (!extension_loaded('gd')) {
-            throw new \RuntimeException('Need GD extension');
+            throw new RuntimeException('Need GD extension');
         }
 
         // Get current dimensions
-        list($width, $height, $type) = self::getSizeOfImage($img);
+        list($width, $height, $type) = array_values(self::getImageSize($img));
 
         // Treatment
-        switch ($type) {
-            case 'RESOURCE':
-                /** @var resource $source */
-                $source = $img;
-                break;
-            case \IMAGETYPE_PNG:
-                $source = \imagecreatefrompng($img);
-                \imagealphablending($source, false);
-                \imagesavealpha($source, true);
-                break;
-            case \IMAGETYPE_GIF:
-                $source = \imagecreatefromgif($img);
-                break;
-            default:
-                $source = \imagecreatefromjpeg($img);
-        }
+        $source = static::createImageFromType($type, $img);
 
         // Defaults sizes
-        if (is_null($newWidth)) {
+        if (null === $newWidth) {
             $newWidth = $width;
         }
-        if (is_null($newHeight)) {
+        if (null === $newHeight) {
             $newHeight = $height;
         }
 
@@ -275,15 +303,45 @@ final class ImageHelper
             return $source;
         }
 
-        $destination = \imagecreatetruecolor($newWidth, $newHeight);
+        $destination = imagecreatetruecolor($newWidth, $newHeight);
         // Set background to white
-        $white = \imagecolorallocate($destination, 255, 255, 255);
-        \imagefill($destination, 0, 0, $white);
+        $white = imagecolorallocate($destination, 255, 255, 255);
+        imagefill($destination, 0, 0, $white);
         // Resizing
-        \imagecopyresampled($destination, $source, $dest_x, $dest_y, 0, 0, $width, $height, $width, $height);
+        imagecopyresampled($destination, $source, $dest_x, $dest_y, 0, 0, $width, $height, $width, $height);
         // Erase source resource
-        \imagedestroy($source);
+        imagedestroy($source);
 
         return $destination;
+    }
+
+    /**
+     * Create image from type.
+     *
+     * @param string|int $type
+     * @param resource|string $img
+     *
+     * @return false|resource
+     */
+    private static function createImageFromType($type, $img)
+    {
+        switch ($type) {
+            case 'RESOURCE':
+                /** @var resource $source */
+                return $img;
+                break;
+            case IMAGETYPE_PNG:
+                $source = imagecreatefrompng($img);
+                imagealphablending($source, false);
+                imagesavealpha($source, true);
+
+                return $source;
+                break;
+            case IMAGETYPE_GIF:
+                return imagecreatefromgif($img);
+                break;
+            default:
+                return imagecreatefromjpeg($img);
+        }
     }
 }

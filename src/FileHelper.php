@@ -25,44 +25,54 @@ final class FileHelper
      * Get a human see file size.
      *
      * @param int|float $size
-     * @param int       $precision
+     * @param int $precision
      *
      * @return string
      */
     public static function humanFileSize($size, int $precision = 2): string
     {
         if (!is_numeric($size)) {
-            return (string) $size;
+            return (string)$size;
         }
 
         // PB
         if (($size / pow(1024, 5)) >= 1) {
-            return sprintf("%s PB",
-                           round($size / pow(1024, 5), $precision));
+            return sprintf(
+                "%s PB",
+                round($size / pow(1024, 5), $precision)
+            );
         }
 
         // TB
         if (($size / pow(1024, 4)) >= 1) {
-            return sprintf("%s TB",
-                           round($size / pow(1024, 4), $precision));
+            return sprintf(
+                "%s TB",
+                round($size / pow(1024, 4), $precision)
+            );
         }
 
         // GB
         if (($size / pow(1024, 3)) >= 1) {
-            return sprintf("%s GB",
-                           round($size / pow(1024, 3), $precision));
+            return sprintf(
+                "%s GB",
+                round($size / pow(1024, 3), $precision)
+            );
         }
 
         // MB
         if (($size / pow(1024, 2)) >= 1) {
-            return sprintf("%s MB",
-                           round($size / pow(1024, 2), $precision));
+            return sprintf(
+                "%s MB",
+                round($size / pow(1024, 2), $precision)
+            );
         }
 
         // KB
         if (($size / pow(1024, 1)) >= 1) {
-            return sprintf("%s KB",
-                           round($size / pow(1024, 1), $precision));
+            return sprintf(
+                "%s KB",
+                round($size / pow(1024, 1), $precision)
+            );
         }
 
         // Bytes
@@ -80,19 +90,19 @@ final class FileHelper
     {
         switch (mb_strtolower(substr($size, -1))) {
             case 'k':
-                return (int) substr($size, 0, -1) * 1024;
+                return (int)substr($size, 0, -1) * 1024;
             case 'm':
-                return (int) substr($size, 0, -1) * 1024 * 1024;
+                return (int)substr($size, 0, -1) * 1024 * 1024;
             case 'g':
-                return (int) substr($size, 0, -1) * 1024 * 1024 * 1024;
+                return (int)substr($size, 0, -1) * 1024 * 1024 * 1024;
             default:
                 switch (mb_strtolower(substr($size, -2))) {
                     case 'kb':
-                        return (int) substr($size, 0, -2) * 1024;
+                        return (int)substr($size, 0, -2) * 1024;
                     case 'mb':
-                        return (int) substr($size, 0, -2) * 1024 * 1024;
+                        return (int)substr($size, 0, -2) * 1024 * 1024;
                     case 'gb':
-                        return (int) substr($size, 0, -2) * 1024 * 1024 * 1024;
+                        return (int)substr($size, 0, -2) * 1024 * 1024 * 1024;
                     default:
                         return intval($size);
                 }
