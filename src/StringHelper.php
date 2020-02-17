@@ -73,7 +73,7 @@ final class StringHelper
             $source .= $specials;
         }
 
-        $length = abs(intval($length));
+        $length = abs((int)$length);
         $n = strlen($source);
         $str = [];
 
@@ -232,17 +232,17 @@ EOT;
         if (mb_strlen(trim($str)) > 0 && mb_strlen(trim($str)) > $nbCharacters) {
             switch ($where) {
                 case StringHelper::TRUNCATE_LEFT:
-                    $str = $separator . ' ' . mb_substr($str, intval(mb_strlen($str) - $nbCharacters, mb_strlen($str)));
+                    $str = $separator . ' ' . mb_substr($str, (int)(mb_strlen($str) - $nbCharacters), mb_strlen($str));
                     break;
                 case StringHelper::TRUNCATE_RIGHT:
                     $str = mb_substr($str, 0, $nbCharacters) . ' ' . $separator;
                     break;
                 case StringHelper::TRUNCATE_MIDDLE:
-                    $str = mb_substr($str, 0, intval(ceil($nbCharacters / 2))) .
+                    $str = mb_substr($str, 0, (int)ceil($nbCharacters / 2)) .
                         ' ' .
                         $separator .
                         ' ' .
-                        mb_substr($str, intval(mb_strlen($str) - floor($nbCharacters / 2)), mb_strlen($str));
+                        mb_substr($str, (int)(mb_strlen($str) - floor($nbCharacters / 2)), mb_strlen($str));
                     break;
             }
         }

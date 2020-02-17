@@ -104,7 +104,7 @@ final class FileHelper
                     case 'gb':
                         return (int)substr($size, 0, -2) * 1024 * 1024 * 1024;
                     default:
-                        return intval($size);
+                        return (int)$size;
                 }
         }
     }
