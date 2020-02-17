@@ -110,8 +110,8 @@ final class ObjectHelper
         $reflectionObject = new ReflectionObject($object);
 
         // If property is public
-        if ($bReturn = ($reflectionObject->hasProperty($property) &&
-            $reflectionObject->getProperty($property)->isPublic())) {
+        if ($reflectionObject->hasProperty($property) &&
+            $reflectionObject->getProperty($property)->isPublic()) {
             $object->$property = $value;
 
             return true;
