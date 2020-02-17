@@ -98,6 +98,9 @@ class ImageHelperTest extends TestCase
         $this->assertEquals('#f78080', ImageHelper::gradientColor('#ffffff', '#ee0000', 50));
     }
 
+    /**
+     * @requires extension gd
+     */
     public function testResize()
     {
         $filename = __DIR__ . '/files/image.jpg';
@@ -123,6 +126,9 @@ class ImageHelperTest extends TestCase
         $this->assertEquals(100, $size['height']);
     }
 
+    /**
+     * @requires extension gd
+     */
     public function testResizeSupport()
     {
         $filename = __DIR__ . '/files/image.jpg';

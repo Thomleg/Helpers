@@ -29,6 +29,9 @@ class ArrayHelperTest extends TestCase
         $this->assertFalse(ArrayHelper::isSequential(['00' => 'foo', '01' => 'bar', '02' => 'hello', '03' => 'world']));
     }
 
+    /**
+     * @requires extension simplexml
+     */
     public function testToXml()
     {
         $array = [
