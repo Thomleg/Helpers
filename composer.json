@@ -29,6 +29,8 @@
     "ext-intl": "*"
   },
   "require-dev": {
+    "ext-gd": "*",
+    "ext-simplexml": "*",
     "phpunit/phpunit": "^7.5 || ^8.0"
   },
   "suggest": {
