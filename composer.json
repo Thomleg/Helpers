@@ -1,9 +1,9 @@
 {
   "name": "berlioz/helpers",
   "type": "library",
-  "description": "Helpers for Berlioz Framework",
+  "description": "Many PHP functions used in the Berlioz framework, which you can use in your developments.",
   "license": "MIT",
-  "homepage": "http://getberlioz.com",
+  "homepage": "https://getberlioz.com",
   "authors": [
     {
       "name": "Ronan Giron",
