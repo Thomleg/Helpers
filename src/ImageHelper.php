@@ -15,6 +15,7 @@ declare(strict_types=1);
 
 namespace Berlioz\Helpers;
 
+use GdImage;
 use InvalidArgumentException;
 use RuntimeException;
 
@@ -109,8 +110,8 @@ final class ImageHelper
      *
      * @param int $originalWidth Original width
      * @param int $originalHeight Original height
-     * @param int $newWidth New width
-     * @param int $newHeight New height
+     * @param int|null $newWidth New width
+     * @param int|null $newHeight New height
      * @param int $mode Mode (default: B_IMG_SIZE_RATIO)
      *
      * @return array
@@ -175,10 +176,10 @@ final class ImageHelper
     /**
      * Get size of image.
      *
-     * @param string|resource $img File name or image resource
+     * @param string|resource|GdImage $img File name or image resource
      *
      * @return array
-     * @throws \InvalidArgumentException if not valid input resource or file name
+     * @throws InvalidArgumentException if not valid input resource or file name
      */
     public static function getImageSize($img): array
     {
@@ -196,7 +197,8 @@ final class ImageHelper
             ];
         }
 
-        if (is_resource($img)) {
+        if ((PHP_MAJOR_VERSION < 8 && is_resource($img)) ||
+            (PHP_MAJOR_VERSION > 7 && $img instanceof GdImage)) {
             return [
                 'width' => imagesx($img),
                 'height' => imagesy($img),
@@ -210,13 +212,13 @@ final class ImageHelper
     /**
      * Resize image.
      *
-     * @param string|resource $img File name or image resource
+     * @param string|resource|GdImage $img File name or image resource
      * @param int $newWidth New width
      * @param int $newHeight New height
      * @param int $mode Mode (default: B_IMG_SIZE_RATIO)
      *
-     * @return resource
-     * @throws \InvalidArgumentException if not valid input resource or file name
+     * @return resource|GdImage
+     * @throws InvalidArgumentException if not valid input resource or file name
      */
     public static function resize($img, int $newWidth = null, int $newHeight = null, int $mode = self::SIZE_RATIO)
     {
@@ -269,12 +271,12 @@ final class ImageHelper
     /**
      * Resize support of image.
      *
-     * @param string|resource $img File name or image resource
+     * @param string|resource|GdImage $img File name or image resource
      * @param int $newWidth New width
      * @param int $newHeight New height
      *
-     * @return resource
-     * @throws \InvalidArgumentException if not valid input resource or file name
+     * @return resource|GdImage
+     * @throws InvalidArgumentException if not valid input resource or file name
      */
     public static function resizeSupport($img, int $newWidth = null, int $newHeight = null)
     {
@@ -319,9 +321,9 @@ final class ImageHelper
      * Create image from type.
      *
      * @param string|int $type
-     * @param resource|string $img
+     * @param resource|GdImage|string $img
      *
-     * @return false|resource
+     * @return false|resource|GdImage
      */
     private static function createImageFromType($type, $img)
     {
