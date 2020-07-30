@@ -16,6 +16,7 @@ namespace Berlioz\Helpers;
 
 use BadMethodCallException;
 use InvalidArgumentException;
+use ReflectionException;
 use ReflectionObject;
 
 /**
@@ -33,7 +34,7 @@ final class ObjectHelper
      * @param bool $exists
      *
      * @return mixed
-     * @throws \ReflectionException
+     * @throws ReflectionException
      */
     public static function getPropertyValue($object, string $property, &$exists = null)
     {
@@ -99,7 +100,7 @@ final class ObjectHelper
      * @param mixed $value
      *
      * @return bool
-     * @throws \ReflectionException
+     * @throws ReflectionException
      */
     public static function setPropertyValue($object, string $property, $value): bool
     {

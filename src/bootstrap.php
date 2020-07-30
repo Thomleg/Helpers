@@ -2,9 +2,9 @@
 
 use Berlioz\Helpers\ArrayHelper;
 use Berlioz\Helpers\FileHelper;
+use Berlioz\Helpers\ImageHelper;
 use Berlioz\Helpers\ObjectHelper;
 use Berlioz\Helpers\StringHelper;
-use Berlioz\Helpers\ImageHelper;
 
 ////////////////////
 /// ARRAY HELPER ///
@@ -26,10 +26,10 @@ function b_array_is_sequential(array $array): bool
  * Convert array to an XML element.
  *
  * @param array $array
- * @param \SimpleXMLElement|null $root
+ * @param SimpleXMLElement|null $root
  * @param string|null $rootName
  *
- * @return \SimpleXMLElement
+ * @return SimpleXMLElement
  */
 function b_array_to_xml(array $array, ?SimpleXMLElement $root = null, ?string $rootName = null): SimpleXMLElement
 {
@@ -60,7 +60,7 @@ function b_array_merge_recursive(array $arraySrc, array ...$arrays): array
  * @param string $path Path
  *
  * @return bool
- * @throws \InvalidArgumentException if first argument is not a traversable data
+ * @throws InvalidArgumentException if first argument is not a traversable data
  */
 function b_array_traverse_exists(&$mixed, string $path)
 {
@@ -75,7 +75,7 @@ function b_array_traverse_exists(&$mixed, string $path)
  * @param mixed $default Default value
  *
  * @return mixed|null
- * @throws \InvalidArgumentException if first argument is not a traversable data
+ * @throws InvalidArgumentException if first argument is not a traversable data
  */
 function b_array_traverse_get(&$mixed, string $path, $default = null)
 {
@@ -90,7 +90,7 @@ function b_array_traverse_get(&$mixed, string $path, $default = null)
  * @param mixed $value Value
  *
  * @return bool
- * @throws \InvalidArgumentException if first argument is not a traversable data
+ * @throws InvalidArgumentException if first argument is not a traversable data
  */
 function b_array_traverse_set(&$mixed, string $path, $value): bool
 {
@@ -140,7 +140,7 @@ function b_size_from_ini(string $size): int
  * @param bool $exists
  *
  * @return mixed
- * @throws \ReflectionException
+ * @throws ReflectionException
  */
 function b_get_property_value($object, string $property, &$exists = null)
 {
@@ -155,7 +155,7 @@ function b_get_property_value($object, string $property, &$exists = null)
  * @param mixed $value
  *
  * @return bool
- * @throws \ReflectionException
+ * @throws ReflectionException
  */
 function b_set_property_value($object, string $property, $value): bool
 {
@@ -360,7 +360,7 @@ function b_img_size(
  * @param int $mode Mode (default: B_IMG_SIZE_RATIO)
  *
  * @return resource
- * @throws \InvalidArgumentException if not valid input resource or file name
+ * @throws InvalidArgumentException if not valid input resource or file name
  */
 function b_img_resize($img, int $newWidth = null, int $newHeight = null, int $mode = B_IMG_SIZE_RATIO)
 {
@@ -375,7 +375,7 @@ function b_img_resize($img, int $newWidth = null, int $newHeight = null, int $mo
  * @param int $newHeight New height
  *
  * @return resource
- * @throws \InvalidArgumentException if not valid input resource or file name
+ * @throws InvalidArgumentException if not valid input resource or file name
  */
 function b_img_support($img, int $newWidth = null, int $newHeight = null)
 {

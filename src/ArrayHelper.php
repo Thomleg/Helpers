@@ -52,10 +52,10 @@ final class ArrayHelper
      * Convert array to an XML element.
      *
      * @param $array
-     * @param \SimpleXMLElement|null $root
+     * @param SimpleXMLElement|null $root
      * @param string|null $rootName
      *
-     * @return \SimpleXMLElement
+     * @return SimpleXMLElement
      */
     public static function toXml($array, ?SimpleXMLElement $root = null, ?string $rootName = null): SimpleXMLElement
     {
@@ -130,7 +130,7 @@ final class ArrayHelper
      * @param string $path Path
      *
      * @return bool
-     * @throws \InvalidArgumentException if first argument is not a traversable data
+     * @throws InvalidArgumentException if first argument is not a traversable data
      */
     public static function traverseExists(&$mixed, string $path): bool
     {
@@ -160,7 +160,7 @@ final class ArrayHelper
      * @param mixed $default Default value
      *
      * @return mixed|null
-     * @throws \InvalidArgumentException if first argument is not a traversable data
+     * @throws InvalidArgumentException if first argument is not a traversable data
      */
     public static function traverseGet(&$mixed, string $path, $default = null)
     {
@@ -190,7 +190,7 @@ final class ArrayHelper
      * @param mixed $value Value
      *
      * @return bool
-     * @throws \InvalidArgumentException if first argument is not a traversable data
+     * @throws InvalidArgumentException if first argument is not a traversable data
      */
     public static function traverseSet(&$mixed, string $path, $value): bool
     {
