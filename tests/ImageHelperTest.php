@@ -22,8 +22,8 @@ class ImageHelperTest extends TestCase
         return [
             [
                 'params' => [
-                    'width' => 100,
-                    'height' => 100,
+                    'originalWidth' => 100,
+                    'originalHeight' => 100,
                     'newWidth' => 50,
                     'newHeight' => null,
                     'mode' => B_IMG_SIZE_RATIO
@@ -32,8 +32,8 @@ class ImageHelperTest extends TestCase
             ],
             [
                 'params' => [
-                    'width' => 100,
-                    'height' => 150,
+                    'originalWidth' => 100,
+                    'originalHeight' => 150,
                     'newWidth' => 50,
                     'newHeight' => null,
                     'mode' => B_IMG_SIZE_RATIO
@@ -42,8 +42,8 @@ class ImageHelperTest extends TestCase
             ],
             [
                 'params' => [
-                    'width' => 150,
-                    'height' => 100,
+                    'originalWidth' => 150,
+                    'originalHeight' => 100,
                     'newWidth' => 50,
                     'newHeight' => null,
                     'mode' => B_IMG_SIZE_RATIO
@@ -52,8 +52,8 @@ class ImageHelperTest extends TestCase
             ],
             [
                 'params' => [
-                    'width' => 150,
-                    'height' => 100,
+                    'originalWidth' => 150,
+                    'originalHeight' => 100,
                     'newWidth' => 50,
                     'newHeight' => 50,
                     'mode' => B_IMG_SIZE_LARGER_EDGE | B_IMG_SIZE_RATIO
@@ -62,8 +62,8 @@ class ImageHelperTest extends TestCase
             ],
             [
                 'params' => [
-                    'width' => 100,
-                    'height' => 150,
+                    'originalWidth' => 100,
+                    'originalHeight' => 150,
                     'newWidth' => 50,
                     'newHeight' => 50,
                     'mode' => B_IMG_SIZE_RATIO | B_IMG_SIZE_LARGER_EDGE
@@ -72,8 +72,8 @@ class ImageHelperTest extends TestCase
             ],
             [
                 'params' => [
-                    'width' => 100,
-                    'height' => 150,
+                    'originalWidth' => 100,
+                    'originalHeight' => 150,
                     'newWidth' => 50,
                     'newHeight' => 50,
                     'mode' => 8
