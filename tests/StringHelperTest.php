@@ -26,24 +26,24 @@ class StringHelperTest extends TestCase
 
         // Only alpha lower case
         $str = StringHelper::random(32, StringHelper::RANDOM_ALPHA | StringHelper::RANDOM_NEED_ALL);
-        $this->assertRegExp('/^[a-z]+$/i', $str);
-        $this->assertRegExp('/[a-z]+/', $str);
-        $this->assertRegExp('/[A-Z]+/', $str);
+        $this->assertMatchesRegularExpression('/^[a-z]+$/i', $str);
+        $this->assertMatchesRegularExpression('/[a-z]+/', $str);
+        $this->assertMatchesRegularExpression('/[A-Z]+/', $str);
 
         // Only alpha lower case
-        $this->assertRegExp('/^[a-z]+$/', StringHelper::random(32, StringHelper::RANDOM_LOWER_CASE));
+        $this->assertMatchesRegularExpression('/^[a-z]+$/', StringHelper::random(32, StringHelper::RANDOM_LOWER_CASE));
 
         // With alpha & numeric
         $str = StringHelper::random(32, StringHelper::RANDOM_ALPHA | StringHelper::RANDOM_NUMERIC);
-        $this->assertRegExp('/^[a-z0-9]+$/i', $str);
+        $this->assertMatchesRegularExpression('/^[a-z0-9]+$/i', $str);
 
         // With numeric
         $str = StringHelper::random(32, StringHelper::RANDOM_NUMERIC);
-        $this->assertRegExp('/^[0-9]+$/', $str);
+        $this->assertMatchesRegularExpression('/^[0-9]+$/', $str);
 
         // With special alpha & Not required
         $str = StringHelper::random(32, StringHelper::RANDOM_SPECIAL_CHARACTERS);
-        $this->assertRegExp('/^[^a-z0-9]+$/i', $str);
+        $this->assertMatchesRegularExpression('/^[^a-z0-9]+$/i', $str);
 
         // With only numeric & special alpha & required
         $str = StringHelper::random(
@@ -52,9 +52,9 @@ class StringHelperTest extends TestCase
             StringHelper::RANDOM_SPECIAL_CHARACTERS |
             StringHelper::RANDOM_NEED_ALL
         );
-        $this->assertRegExp('/[0-9]+/', $str);
-        $this->assertNotRegExp('/[a-z]+/i', $str);
-        $this->assertRegExp('/[^0-9a-z]+/i', $str);
+        $this->assertMatchesRegularExpression('/[0-9]+/', $str);
+        $this->assertDoesNotMatchRegularExpression('/[a-z]+/i', $str);
+        $this->assertMatchesRegularExpression('/[^0-9a-z]+/i', $str);
     }
 
     public function testNl2p()
