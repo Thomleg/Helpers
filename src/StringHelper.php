@@ -146,7 +146,7 @@ final class StringHelper
     {
         $str = transliterator_transliterate('Any-Latin; Latin-ASCII', $str);
 
-        return $str;
+        return $str ?: '';
     }
 
     /**

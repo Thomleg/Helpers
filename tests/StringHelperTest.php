@@ -71,6 +71,8 @@ class StringHelperTest extends TestCase
     {
         $this->assertEquals('This is a wrong sentence!', StringHelper::removeAccents('Thîs îs à wrong séntènce!'));
         $this->assertEquals('I a lublu PHP!', StringHelper::removeAccents('И я люблю PHP!'));
+        $this->assertEquals('This is a wrong sentence!', StringHelper::removeAccents("Thîs îs à wrong s\xC3\xA9ntènce!"));
+        $this->assertEquals('', StringHelper::removeAccents(utf8_decode("Thîs îs à wrong s\xC3\xA9ntènce!")));
     }
 
     public function testStrToUri()
