@@ -82,27 +82,24 @@ final class ImageHelper
         for ($i = 0; $i < 3; $i++) {
             if ($rgb1[$i] < $rgb2[$i]) {
                 $rgb_final[$i] = round(
-                    ((max($rgb1[$i], $rgb2[$i]) - min($rgb1[$i], $rgb2[$i])) / 100) * $percentToAdd + min(
-                        $rgb1[$i],
-                        $rgb2[$i]
-                    )
+                    ((max($rgb1[$i], $rgb2[$i]) - min($rgb1[$i], $rgb2[$i])) / 100)
+                    * $percentToAdd
+                    + min($rgb1[$i], $rgb2[$i])
                 );
             } else {
                 $rgb_final[$i] = round(
-                    max($rgb1[$i], $rgb2[$i]) - ((max($rgb1[$i], $rgb2[$i]) - min(
-                                $rgb1[$i],
-                                $rgb2[$i]
-                            )) / 100) * $percentToAdd
+                    max($rgb1[$i], $rgb2[$i])
+                    - ((max($rgb1[$i], $rgb2[$i]) - min($rgb1[$i], $rgb2[$i])) / 100)
+                    * $percentToAdd
                 );
             }
         }
 
-        return "#" . sprintf("%02s", dechex($rgb_final[0])) . sprintf("%02s", dechex($rgb_final[1])) . sprintf(
-                "%02s",
-                dechex(
-                    $rgb_final[2]
-                )
-            );
+        return
+            "#" .
+            sprintf("%02s", dechex((int)$rgb_final[0])) .
+            sprintf("%02s", dechex((int)$rgb_final[1])) .
+            sprintf("%02s", dechex((int)$rgb_final[2]));
     }
 
     /**
