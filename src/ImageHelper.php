@@ -242,12 +242,13 @@ final class ImageHelper
                 $height,
                 $newWidth,
                 $newHeight,
-                ($mode & self::RESIZE_COVER) == self::RESIZE_COVER ? $mode & self::SIZE_LARGER_EDGE : $mode
+                self::SIZE_RATIO | self::SIZE_LARGER_EDGE
             );
+
+            $posX = ($dstWidth - $newSize['width']) / 2;
+            $posY = ($dstHeight - $newSize['height']) / 2;
             $newWidth = $newSize['width'];
             $newHeight = $newSize['height'];
-            $posX = (int)ceil(($dstWidth - $newWidth) / 2);
-            $posY = (int)ceil(($dstHeight - $newHeight) / 2);
         } else {
             // We calculate size
             $newSize = self::size($width, $height, $newWidth, $newHeight, $mode);

@@ -101,7 +101,7 @@ class ImageHelperTest extends TestCase
     /**
      * @requires extension gd
      */
-    public function testResize()
+    public function testResizeLandscapeImage()
     {
         $filename = __DIR__ . '/files/image.jpg';
 
@@ -119,6 +119,34 @@ class ImageHelperTest extends TestCase
         $size = ImageHelper::getImageSize($resource);
         $this->assertEquals(100, $size['width']);
         $this->assertEquals(50, $size['height']);
+
+        $resource = ImageHelper::resize($filename, 100, 100, B_IMG_RESIZE_COVER);
+        $size = ImageHelper::getImageSize($resource);
+        $this->assertEquals(100, $size['width']);
+        $this->assertEquals(100, $size['height']);
+    }
+
+    /**
+     * @requires extension gd
+     */
+    public function testResizePortraitImage()
+    {
+        $filename = __DIR__ . '/files/image2.jpg';
+
+        $resource = ImageHelper::resize($filename, 50);
+        $size = ImageHelper::getImageSize($resource);
+        $this->assertEquals(50, $size['width']);
+        $this->assertEquals(100, $size['height']);
+
+        $resource = ImageHelper::resize($filename, null, 200);
+        $size = ImageHelper::getImageSize($resource);
+        $this->assertEquals(100, $size['width']);
+        $this->assertEquals(200, $size['height']);
+
+        $resource = ImageHelper::resize($filename, 100, 100);
+        $size = ImageHelper::getImageSize($resource);
+        $this->assertEquals(50, $size['width']);
+        $this->assertEquals(100, $size['height']);
 
         $resource = ImageHelper::resize($filename, 100, 100, B_IMG_RESIZE_COVER);
         $size = ImageHelper::getImageSize($resource);
