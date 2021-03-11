@@ -146,6 +146,10 @@ final class ArrayHelper
                 return false;
             }
 
+            if (!isset($temp[$key])) {
+                return false;
+            }
+
             $temp = &$temp[$key];
         }
 

@@ -140,6 +140,7 @@ class ArrayHelperTest extends TestCase
         $this->assertTrue(ArrayHelper::traverseExists($tArray, 'foo'));
         $this->assertTrue(ArrayHelper::traverseExists($tArray, 'foo2.foo6'));
         $this->assertTrue(ArrayHelper::traverseExists($tArray, 'foo2.foo6.foo8'));
+        $this->assertFalse(ArrayHelper::traverseExists($tArray, 'bar'));
         $this->assertFalse(ArrayHelper::traverseExists($tArray, 'foo2.foo999.foo8'));
         $this->assertFalse(ArrayHelper::traverseExists($tArray, 'foo3.foo4'));
         $this->assertFalse(ArrayHelper::traverseExists($tArray, 'foo.bar.foo'));
