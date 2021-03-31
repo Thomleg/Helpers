@@ -1,9 +1,9 @@
 # Berlioz Helpers (PHP Functions)
 
 [![Latest Version](https://img.shields.io/packagist/v/berlioz/helpers.svg?style=flat-square)](https://github.com/BerliozFramework/Helpers/releases)
-[![Software license](https://img.shields.io/github/license/BerliozFramework/Helpers.svg?style=flat-square)](https://github.com/BerliozFramework/Helpers/blob/master/LICENSE)
-[![Build Status](https://img.shields.io/travis/com/BerliozFramework/Helpers/master.svg?style=flat-square)](https://travis-ci.com/BerliozFramework/Helpers)
-[![Quality Grade](https://img.shields.io/codacy/grade/cf7e947e6ddf4da28e540402bf08d957/master.svg?style=flat-square)](https://www.codacy.com/manual/BerliozFramework/Helpers)
+[![Software license](https://img.shields.io/github/license/BerliozFramework/Helpers.svg?style=flat-square)](https://github.com/BerliozFramework/Helpers/blob/1.x/LICENSE)
+[![Build Status](https://img.shields.io/travis/com/BerliozFramework/Helpers/1.x.svg?style=flat-square)](https://travis-ci.com/BerliozFramework/Helpers)
+[![Quality Grade](https://img.shields.io/codacy/grade/cf7e947e6ddf4da28e540402bf08d957/1.x.svg?style=flat-square)](https://www.codacy.com/manual/BerliozFramework/Helpers)
 [![Total Downloads](https://img.shields.io/packagist/dt/berlioz/helpers.svg?style=flat-square)](https://packagist.org/packages/berlioz/helpers)
 
 Many PHP functions used in the Berlioz framework, which you can use in your developments.
