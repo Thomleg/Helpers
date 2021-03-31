@@ -144,6 +144,7 @@ class ArrayHelperTest extends TestCase
         $this->assertFalse(ArrayHelper::traverseExists($tArray, 'foo2.foo999.foo8'));
         $this->assertFalse(ArrayHelper::traverseExists($tArray, 'foo3.foo4'));
         $this->assertFalse(ArrayHelper::traverseExists($tArray, 'foo.bar.foo'));
+        $this->assertFalse(ArrayHelper::traverseExists($tArray, 'bar.foo'));
     }
 
     public function testTraverseGet()
@@ -166,6 +167,7 @@ class ArrayHelperTest extends TestCase
         $this->assertEquals('bar', ArrayHelper::traverseGet($tArray, 'foo2.foo999.foo8', 'bar'));
         $this->assertEquals(null, ArrayHelper::traverseGet($tArray, 'foo3.foo4'));
         $this->assertEquals(null, ArrayHelper::traverseGet($tArray, 'foo.bar.foo'));
+        $this->assertEquals('bar', ArrayHelper::traverseGet($tArray, 'bar.foo', 'bar'));
     }
 
     public function testTraverseSet()
@@ -189,5 +191,6 @@ class ArrayHelperTest extends TestCase
         $this->assertTrue(ArrayHelper::traverseSet($tArray, 'foo2.foo999.foo8', 'bob999'));
         $this->assertEquals('bob999', ArrayHelper::traverseGet($tArray, 'foo2.foo999.foo8'));
         $this->assertFalse(ArrayHelper::traverseSet($tArray, 'foo.bar.foo', 'bar'));
+        $this->assertTrue(ArrayHelper::traverseSet($tArray, 'bar.foo', 'baz'));
     }
 }

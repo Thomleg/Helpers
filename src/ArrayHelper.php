@@ -180,6 +180,10 @@ final class ArrayHelper
                 return $default;
             }
 
+            if (!isset($temp[$key])) {
+                return $default;
+            }
+
             $temp = &$temp[$key];
         }
 
@@ -208,6 +212,10 @@ final class ArrayHelper
         foreach ($path as $key) {
             if (null !== $temp && !is_iterable($temp)) {
                 return false;
+            }
+
+            if (!isset($temp[$key])) {
+                $temp[$key] = null;
             }
 
             $temp = &$temp[$key];
