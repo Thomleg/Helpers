@@ -14,6 +14,7 @@ declare(strict_types=1);
 
 namespace Berlioz\Helpers;
 
+use ArrayObject;
 use InvalidArgumentException;
 use SimpleXMLElement;
 use Traversable;
@@ -146,7 +147,13 @@ final class ArrayHelper
                 return false;
             }
 
-            if (!isset($temp[$key])) {
+            // An array, so we check existent of key
+            if (is_array($temp) && !array_key_exists($key, $temp)) {
+                return false;
+            }
+
+            // Not an array, so isset
+            if (!is_array($temp) && !isset($key, $temp)) {
                 return false;
             }
 
@@ -180,7 +187,13 @@ final class ArrayHelper
                 return $default;
             }
 
-            if (!isset($temp[$key])) {
+            // An array, so we check existent of key
+            if ((is_array($temp) || $temp instanceof ArrayObject) && !array_key_exists($key, $temp)) {
+                return $default;
+            }
+
+            // Not an array, so isset
+            if (!(is_array($temp) || $temp instanceof ArrayObject) && !isset($key, $temp)) {
                 return $default;
             }
 

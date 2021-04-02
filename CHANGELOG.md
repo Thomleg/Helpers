@@ -4,6 +4,13 @@ All notable changes to this project will be documented in this file. This projec
 to [Semantic Versioning] (http://semver.org/). For change log format,
 use [Keep a Changelog] (http://keepachangelog.com/).
 
+## [1.1.4] - 2021-04-02
+
+### Fixed
+
+- Fixed ArrayHelper::traverseHas() not returning true for null value
+- Fixed ArrayHelper::traverseGet() not returning a null value
+
 ## [1.1.3] - 2021-03-31
 
 ### Fixed
