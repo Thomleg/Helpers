@@ -4,6 +4,16 @@ All notable changes to this project will be documented in this file. This projec
 to [Semantic Versioning] (http://semver.org/). For change log format,
 use [Keep a Changelog] (http://keepachangelog.com/).
 
+## [1.1.5] - 2021-04-25
+
+### Changed
+
+- Bump PHPUnit version to 9.3
+
+### Fixed
+
+- Cast parameters given to `imagecopyresampled` function to integer
+
 ## [1.1.4] - 2021-04-02
 
 ### Fixed
