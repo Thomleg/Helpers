@@ -210,8 +210,8 @@ final class ImageHelper
      * Resize image.
      *
      * @param string|resource|GdImage $img File name or image resource
-     * @param int $newWidth New width
-     * @param int $newHeight New height
+     * @param int|null $newWidth New width
+     * @param int|null $newHeight New height
      * @param int $mode Mode (default: B_IMG_SIZE_RATIO)
      *
      * @return resource|GdImage
@@ -242,8 +242,8 @@ final class ImageHelper
                 self::SIZE_RATIO | self::SIZE_LARGER_EDGE
             );
 
-            $posX = ($dstWidth - $newSize['width']) / 2;
-            $posY = ($dstHeight - $newSize['height']) / 2;
+            $posX = (int)ceil(($dstWidth - $newSize['width']) / 2);
+            $posY = (int)ceil(($dstHeight - $newSize['height']) / 2);
             $newWidth = $newSize['width'];
             $newHeight = $newSize['height'];
         } else {
@@ -255,7 +255,7 @@ final class ImageHelper
 
         // Create image thumb
         $thumb = imagecreatetruecolor($dstWidth, $dstHeight);
-        $source = static::createImageFromType($type, $img);
+        $source = self::createImageFromType($type, $img);
 
         // Resizing
         imagecopyresampled($thumb, $source, $posX, $posY, 0, 0, $newWidth, $newHeight, $width, $height);
@@ -297,8 +297,8 @@ final class ImageHelper
         }
 
         // Calculate position
-        $dest_x = ($newWidth - $width) / 2;
-        $dest_y = ($newHeight - $height) / 2;
+        $dest_x = (int)ceil(($newWidth - $width) / 2);
+        $dest_y = (int)ceil(($newHeight - $height) / 2);
         if ($newWidth == $width && $newHeight == $height) {
             return $source;
         }
@@ -308,7 +308,7 @@ final class ImageHelper
         $white = imagecolorallocate($destination, 255, 255, 255);
         imagefill($destination, 0, 0, $white);
         // Resizing
-        imagecopyresampled($destination, $source, $dest_x, $dest_y, 0, 0, $width, $height, $width, $height);
+        imagecopyresampled($destination, $source, $dest_x, $dest_y, 0, 0, $newWidth, $newHeight, $width, $height);
         // Erase source resource
         imagedestroy($source);
 
