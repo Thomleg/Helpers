@@ -4,7 +4,12 @@ All notable changes to this project will be documented in this file. This projec
 to [Semantic Versioning] (http://semver.org/). For change log format,
 use [Keep a Changelog] (http://keepachangelog.com/).
 
-## [1.1.6] - 2021-05-03
+## [1.2.0] - 2021-05-03
+
+### Changed
+
+- `ArrayHelper::mergeRecursive()` accepts no parameters
+- `ArrayHelper::traverse*()` have typed `iterable` first parameter
 
 ### Fixed
 

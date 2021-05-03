@@ -150,6 +150,8 @@ class ArrayHelperTest extends TestCase
                 ['321' => '321 value'],
             )
         );
+
+        $this->assertEquals([], ArrayHelper::mergeRecursive());
     }
 
     public function testTraverseExists()

@@ -93,13 +93,18 @@ final class ArrayHelper
      * b_array_merge_recursive() do not merge strings values
      * into an array.
      *
-     * @param array $arraySrc Array source
      * @param array[] $arrays Arrays to merge
      *
      * @return array
      */
-    public static function mergeRecursive(array $arraySrc, array ...$arrays): array
+    public static function mergeRecursive(array ...$arrays): array
     {
+        $arraySrc = array_shift($arrays);
+
+        if (null === $arraySrc) {
+            return [];
+        }
+
         foreach ($arrays as $array) {
             if (empty($array)) {
                 continue;
@@ -140,14 +145,9 @@ final class ArrayHelper
      * @param string $path Path
      *
      * @return bool
-     * @throws InvalidArgumentException if first argument is not a traversable data
      */
-    public static function traverseExists(&$mixed, string $path): bool
+    public static function traverseExists(iterable &$mixed, string $path): bool
     {
-        if (!is_iterable($mixed)) {
-            throw new InvalidArgumentException('First argument must be a traversable mixed data');
-        }
-
         $path = explode('.', $path);
 
         $temp = &$mixed;
@@ -180,14 +180,9 @@ final class ArrayHelper
      * @param mixed $default Default value
      *
      * @return mixed|null
-     * @throws InvalidArgumentException if first argument is not a traversable data
      */
-    public static function traverseGet(&$mixed, string $path, $default = null)
+    public static function traverseGet(iterable &$mixed, string $path, $default = null)
     {
-        if (!is_iterable($mixed)) {
-            throw new InvalidArgumentException('First argument must be a traversable mixed data');
-        }
-
         $path = explode('.', $path);
 
         $temp = &$mixed;
@@ -220,14 +215,9 @@ final class ArrayHelper
      * @param mixed $value Value
      *
      * @return bool
-     * @throws InvalidArgumentException if first argument is not a traversable data
      */
-    public static function traverseSet(&$mixed, string $path, $value): bool
+    public static function traverseSet(iterable &$mixed, string $path, $value): bool
     {
-        if (!is_iterable($mixed)) {
-            throw new InvalidArgumentException('First argument must be a traversable mixed data');
-        }
-
         $path = explode('.', $path);
 
         $temp = &$mixed;

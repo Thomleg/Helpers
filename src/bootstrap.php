@@ -43,14 +43,13 @@ function b_array_to_xml(array $array, ?SimpleXMLElement $root = null, ?string $r
  * b_array_merge_recursive() do not merge strings values
  * into an array.
  *
- * @param array $arraySrc Array source
  * @param array[] $arrays Arrays to merge
  *
  * @return array
  */
-function b_array_merge_recursive(array $arraySrc, array ...$arrays): array
+function b_array_merge_recursive(array ...$arrays): array
 {
-    return ArrayHelper::mergeRecursive($arraySrc, ...$arrays);
+    return ArrayHelper::mergeRecursive(...$arrays);
 }
 
 /**
