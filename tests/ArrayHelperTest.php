@@ -19,6 +19,7 @@ class ArrayHelperTest extends TestCase
 {
     public function testIsSequential()
     {
+        $this->assertTrue(ArrayHelper::isSequential([]));
         $this->assertTrue(ArrayHelper::isSequential(['foo', 'bar', 'hello', 'world']));
         $this->assertTrue(ArrayHelper::isSequential([0 => 'foo', 1 => 'bar', 2 => 'hello', 3 => 'world']));
         $this->assertTrue(ArrayHelper::isSequential([0 => 'foo', 2 => 'bar', 1 => 'hello', 3 => 'world']));
@@ -120,6 +121,34 @@ class ArrayHelperTest extends TestCase
                 'test' => ['foo', 'bar', 'hello' => ['world2', 'world3']],
             ],
             ArrayHelper::mergeRecursive($arr1, $arr5)
+        );
+
+        $this->assertEquals(
+            [
+                321 => '321 value',
+                'foo' => 'foo value',
+                'bar' => 'bar value',
+                123 => '123 value',
+            ],
+            ArrayHelper::mergeRecursive(
+                ['321' => '321 value'],
+                [],
+                ['foo' => 'foo value', 'bar' => 'bar value', '123' => '123 value'],
+                [],
+            )
+        );
+        $this->assertEquals(
+            [
+                'foo' => 'foo value',
+                'bar' => 'bar value',
+                123 => '123 value',
+                321 => '321 value',
+            ],
+            ArrayHelper::mergeRecursive(
+                [],
+                ['foo' => 'foo value', 'bar' => 'bar value', '123' => '123 value'],
+                ['321' => '321 value'],
+            )
         );
     }
 

@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file. This projec
 to [Semantic Versioning] (http://semver.org/). For change log format,
 use [Keep a Changelog] (http://keepachangelog.com/).
 
+## [1.1.6] - 2021-05-03
+
+### Fixed
+
+- Array merge with empty arrays
+
 ## [1.1.5] - 2021-04-25
 
 ### Changed

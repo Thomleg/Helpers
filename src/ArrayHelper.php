@@ -101,6 +101,15 @@ final class ArrayHelper
     public static function mergeRecursive(array $arraySrc, array ...$arrays): array
     {
         foreach ($arrays as $array) {
+            if (empty($array)) {
+                continue;
+            }
+
+            if (empty($arraySrc)) {
+                $arraySrc = $array;
+                continue;
+            }
+
             if (self::isSequential($arraySrc) || self::isSequential($array)) {
                 $arraySrc = array_merge($arraySrc, $array);
                 continue;
