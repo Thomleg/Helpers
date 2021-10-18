@@ -260,6 +260,22 @@ function b_str_truncate(
 }
 
 /**
+ * Parses the string into variables.
+ *
+ * Similar to `parse_str()` function but keep dots and spaces.
+ *
+ * @param string $str
+ * @param bool $keepDots
+ *
+ * @return array
+ * @see https://www.php.net/manual/function.parse-str.php
+ */
+function b_parse_str(string $str, bool $keepDots = true): array
+{
+    return StringHelper::parseStr($str, $keepDots);
+}
+
+/**
  * Get pascal case convention of string.
  *
  * @param string $str

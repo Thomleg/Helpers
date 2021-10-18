@@ -80,6 +80,10 @@ Many PHP functions used in the Berlioz framework, which you can use in your deve
 
     Truncate string.
 
+  - `b_parse_str(string $str, bool $keepDots = true): array`
+
+    Parses the string into variables.
+
   - `b_pascal_case(string $str): string`
 
     Get pascal case convention of string.

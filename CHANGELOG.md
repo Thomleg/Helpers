@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file. This projec
 to [Semantic Versioning] (http://semver.org/). For change log format,
 use [Keep a Changelog] (http://keepachangelog.com/).
 
+## [1.3.0] - 2021-10-18
+
+### Added
+
+- New method `StringHelper::parseStr()` which keep dots in variable name
+
 ## [1.2.0] - 2021-05-03
 
 ### Changed

@@ -71,7 +71,10 @@ class StringHelperTest extends TestCase
     {
         $this->assertEquals('This is a wrong sentence!', StringHelper::removeAccents('Thîs îs à wrong séntènce!'));
         $this->assertEquals('I a lublu PHP!', StringHelper::removeAccents('И я люблю PHP!'));
-        $this->assertEquals('This is a wrong sentence!', StringHelper::removeAccents("Thîs îs à wrong s\xC3\xA9ntènce!"));
+        $this->assertEquals(
+            'This is a wrong sentence!',
+            StringHelper::removeAccents("Thîs îs à wrong s\xC3\xA9ntènce!")
+        );
         $this->assertEquals('', StringHelper::removeAccents(utf8_decode("Thîs îs à wrong s\xC3\xA9ntènce!")));
     }
 
@@ -120,6 +123,38 @@ class StringHelperTest extends TestCase
                 32,
                 StringHelper::TRUNCATE_LEFT
             )
+        );
+    }
+
+    public function testParseStr()
+    {
+        $this->assertEquals(
+            ['foo.bar' => ['foo.bar' => ['baz']], 'foo_bar' => 'qux'],
+            StringHelper::parseStr('foo.bar[foo.bar][0]=baz&foo_bar=qux')
+        );
+        $this->assertEquals(
+            ['first' => 'value', 'arr' => ['foo bar', 'baz']],
+            StringHelper::parseStr('first=value&arr[]=foo+bar&arr[]=baz')
+        );
+        $this->assertEquals(
+            ['foo' => 'baz'],
+            StringHelper::parseStr('foo=bar&foo=baz')
+        );
+    }
+
+    public function testParseStr_dontKeepDots()
+    {
+        $this->assertEquals(
+            ['foo_bar' => 'qux'],
+            StringHelper::parseStr('foo.bar[foo.bar][0]=baz&foo_bar=qux', false)
+        );
+        $this->assertEquals(
+            ['first' => 'value', 'arr' => ['foo bar', 'baz']],
+            StringHelper::parseStr('first=value&arr[]=foo+bar&arr[]=baz', false)
+        );
+        $this->assertEquals(
+            ['foo' => 'baz'],
+            StringHelper::parseStr('foo=bar&foo=baz', false)
         );
     }
 

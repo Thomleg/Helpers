@@ -251,6 +251,45 @@ EOT;
     }
 
     /**
+     * Parses the string into variables.
+     *
+     * Similar to `parse_str()` function but keep dots and spaces.
+     *
+     * @param string $str
+     * @param bool $keepDots
+     *
+     * @return array
+     * @see https://www.php.net/manual/function.parse-str.php
+     */
+    public static function parseStr(string $str, bool $keepDots = true): array
+    {
+        if (false === $keepDots) {
+            $result = [];
+            parse_str($str, $result);
+
+            return $result;
+        }
+
+        $final = [];
+        $variables = explode('&', $str);
+
+        foreach ($variables as $variable) {
+            $result = [];
+            parse_str($variable, $result);
+
+            $split = preg_split('/(\[.*\])?=/', $variable, 2);
+
+            if (false === is_array($split)) {
+                continue;
+            }
+
+            $final = b_array_merge_recursive($final, [$split[0] => reset($result)]);
+        }
+
+        return $final;
+    }
+
+    /**
      * Get pascal case convention of string.
      *
      * @param string $str
