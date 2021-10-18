@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file. This projec
 to [Semantic Versioning] (http://semver.org/). For change log format,
 use [Keep a Changelog] (http://keepachangelog.com/).
 
+## [1.3.1] - 2021-10-18
+
+### Fixed
+
+- Fix not decoded variable name with `StringHelper::parseStr()`
+
 ## [1.3.0] - 2021-10-18
 
 ### Added

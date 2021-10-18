@@ -283,7 +283,7 @@ EOT;
                 continue;
             }
 
-            $final = b_array_merge_recursive($final, [$split[0] => reset($result)]);
+            $final = b_array_merge_recursive($final, [urldecode($split[0]) => reset($result)]);
         }
 
         return $final;

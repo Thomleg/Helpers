@@ -140,6 +140,14 @@ class StringHelperTest extends TestCase
             ['foo' => 'baz'],
             StringHelper::parseStr('foo=bar&foo=baz')
         );
+        $this->assertEquals(
+            ['f oo.b:a r' => 'qux'],
+            StringHelper::parseStr('f oo.b%3Aa+r=qux')
+        );
+        $this->assertEquals(
+            ['foo' => 'qux', 'bar' => ''],
+            StringHelper::parseStr('foo=qux&bar')
+        );
     }
 
     public function testParseStr_dontKeepDots()
@@ -155,6 +163,14 @@ class StringHelperTest extends TestCase
         $this->assertEquals(
             ['foo' => 'baz'],
             StringHelper::parseStr('foo=bar&foo=baz', false)
+        );
+        $this->assertEquals(
+            ['f_oo_b:a_r' => 'qux'],
+            StringHelper::parseStr('f oo.b%3Aa+r=qux', false)
+        );
+        $this->assertEquals(
+            ['foo' => 'qux', 'bar' => ''],
+            StringHelper::parseStr('foo=qux&bar', false)
         );
     }
 
