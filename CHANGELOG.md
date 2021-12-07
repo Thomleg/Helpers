@@ -13,6 +13,7 @@ use [Keep a Changelog] (http://keepachangelog.com/).
 ### Fixed
 
 - `ArrayHelper::isSequential()` return TRUE only if keys are sequential INTEGER
+- `StringHelper::parseStr()` with empty string or empty key
 
 ## [1.3.1] - 2021-10-18
 

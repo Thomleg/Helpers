@@ -148,6 +148,9 @@ class StringHelperTest extends TestCase
             ['foo' => 'qux', 'bar' => ''],
             StringHelper::parseStr('foo=qux&bar')
         );
+
+        $this->assertEquals([], StringHelper::parseStr(''));
+        $this->assertEquals([], StringHelper::parseStr('=foo'));
     }
 
     public function testParseStr_dontKeepDots()
@@ -172,6 +175,9 @@ class StringHelperTest extends TestCase
             ['foo' => 'qux', 'bar' => ''],
             StringHelper::parseStr('foo=qux&bar', false)
         );
+
+        $this->assertEquals([], StringHelper::parseStr('', false));
+        $this->assertEquals([], StringHelper::parseStr('=foo', false));
     }
 
     public function testPascalCase()

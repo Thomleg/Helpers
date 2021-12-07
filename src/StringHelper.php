@@ -263,6 +263,10 @@ EOT;
      */
     public static function parseStr(string $str, bool $keepDots = true): array
     {
+        if (empty($str)) {
+            return [];
+        }
+
         if (false === $keepDots) {
             $result = [];
             parse_str($str, $result);
@@ -280,6 +284,10 @@ EOT;
             $split = preg_split('/(\[.*\])?=/', $variable, 2);
 
             if (false === is_array($split)) {
+                continue;
+            }
+
+            if (empty($split[0])) {
                 continue;
             }
 
