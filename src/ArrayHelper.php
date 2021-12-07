@@ -19,6 +19,8 @@ use InvalidArgumentException;
 use SimpleXMLElement;
 use Traversable;
 
+use function array_is_list;
+
 /**
  * Class ArrayHelper.
  *
@@ -35,6 +37,10 @@ final class ArrayHelper
      */
     public static function isSequential(array $array): bool
     {
+        if (function_exists('\array_is_list')) {
+            return array_is_list($array);
+        }
+
         if ($array === []) {
             return true;
         }
@@ -44,7 +50,14 @@ final class ArrayHelper
         }
 
         $keys = array_keys($array);
-        sort($keys);
+
+        // Not numbers keys
+        $NaNKeys = array_filter($keys, function ($key) {
+            return !is_int($key);
+        });
+        if (count($NaNKeys) > 0) {
+            return false;
+        }
 
         return $keys === range(0, count($array) - 1);
     }

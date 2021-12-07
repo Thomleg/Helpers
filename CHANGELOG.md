@@ -4,6 +4,16 @@ All notable changes to this project will be documented in this file. This projec
 to [Semantic Versioning] (http://semver.org/). For change log format,
 use [Keep a Changelog] (http://keepachangelog.com/).
 
+## [1.4.0] - In progress
+
+### Changed
+
+- `ArrayHelper::isSequential()` use `array_is_list()` function in PHP 8.1
+
+### Fixed
+
+- `ArrayHelper::isSequential()` return TRUE only if keys are sequential INTEGER
+
 ## [1.3.1] - 2021-10-18
 
 ### Fixed

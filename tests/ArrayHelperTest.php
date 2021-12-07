@@ -22,9 +22,9 @@ class ArrayHelperTest extends TestCase
         $this->assertTrue(ArrayHelper::isSequential([]));
         $this->assertTrue(ArrayHelper::isSequential(['foo', 'bar', 'hello', 'world']));
         $this->assertTrue(ArrayHelper::isSequential([0 => 'foo', 1 => 'bar', 2 => 'hello', 3 => 'world']));
-        $this->assertTrue(ArrayHelper::isSequential([0 => 'foo', 2 => 'bar', 1 => 'hello', 3 => 'world']));
-        $this->assertTrue(ArrayHelper::isSequential(['0' => 'foo', '2' => 'bar', '1' => 'hello', '3' => 'world']));
 
+        $this->assertFalse(ArrayHelper::isSequential(['0' => 'foo', '2' => 'bar', '1' => 'hello', '3' => 'world']));
+        $this->assertFalse(ArrayHelper::isSequential([0 => 'foo', 2 => 'bar', 1 => 'hello', 3 => 'world']));
         $this->assertFalse(ArrayHelper::isSequential(['bar' => 'foo', 'foo' => 'bar', '1' => 'hello', '3' => 'world']));
         $this->assertFalse(ArrayHelper::isSequential(['bar' => 'foo', 'foo' => 'bar', 1 => 'hello', 3 => 'world']));
         $this->assertFalse(ArrayHelper::isSequential(['00' => 'foo', '01' => 'bar', '02' => 'hello', '03' => 'world']));
