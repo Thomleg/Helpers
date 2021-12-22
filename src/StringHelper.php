@@ -229,25 +229,24 @@ EOT;
     ): string {
         $str = html_entity_decode($str);
 
-        if (mb_strlen(trim($str)) > 0 && mb_strlen(trim($str)) > $nbCharacters) {
-            switch ($where) {
-                case StringHelper::TRUNCATE_LEFT:
-                    $str = $separator . ' ' . mb_substr($str, (int)(mb_strlen($str) - $nbCharacters), mb_strlen($str));
-                    break;
-                case StringHelper::TRUNCATE_RIGHT:
-                    $str = mb_substr($str, 0, $nbCharacters) . ' ' . $separator;
-                    break;
-                case StringHelper::TRUNCATE_MIDDLE:
-                    $str = mb_substr($str, 0, (int)ceil($nbCharacters / 2)) .
-                        ' ' .
-                        $separator .
-                        ' ' .
-                        mb_substr($str, (int)(mb_strlen($str) - floor($nbCharacters / 2)), mb_strlen($str));
-                    break;
-            }
+        if (mb_strlen(trim($str)) === 0 || mb_strlen(trim($str)) <= $nbCharacters) {
+            return $str;
         }
 
-        return $str;
+        switch ($where) {
+            case StringHelper::TRUNCATE_LEFT:
+                return $separator . ' ' . mb_substr($str, (int)(mb_strlen($str) - $nbCharacters), mb_strlen($str));
+            case StringHelper::TRUNCATE_RIGHT:
+                return mb_substr($str, 0, $nbCharacters) . ' ' . $separator;
+            case StringHelper::TRUNCATE_MIDDLE:
+                return mb_substr($str, 0, (int)ceil($nbCharacters / 2)) .
+                    ' ' .
+                    $separator .
+                    ' ' .
+                    mb_substr($str, (int)(mb_strlen($str) - floor($nbCharacters / 2)), mb_strlen($str));
+            default:
+                return $str;
+        }
     }
 
     /**

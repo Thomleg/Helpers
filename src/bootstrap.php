@@ -126,6 +126,32 @@ function b_size_from_ini(string $size): int
     return FileHelper::sizeFromIni($size);
 }
 
+/**
+ * Resolve absolute path.
+ *
+ * @param string $srcPath
+ * @param string $dstPath
+ *
+ * @return string|null
+ */
+function b_resolve_absolute_path(string $srcPath, string $dstPath): ?string
+{
+    return FileHelper::resolveAbsolutePath($srcPath, $dstPath);
+}
+
+/**
+ * Resolve relative path.
+ *
+ * @param string $srcPath
+ * @param string $dstPath
+ *
+ * @return string
+ */
+function b_resolve_relative_path(string $srcPath, string $dstPath): string
+{
+    return FileHelper::resolveRelativePath($srcPath, $dstPath);
+}
+
 
 /////////////////////
 /// OBJECT HELPER ///
@@ -350,8 +376,8 @@ function b_gradient_color(string $color, string $colorToAdd, float $percentToAdd
  *
  * @param int $originalWidth Original width
  * @param int $originalHeight Original height
- * @param int $newWidth New width
- * @param int $newHeight New height
+ * @param int|null $newWidth New width
+ * @param int|null $newHeight New height
  * @param int $mode Mode (default: B_IMG_SIZE_RATIO)
  *
  * @return array
@@ -369,13 +395,12 @@ function b_img_size(
 /**
  * Resize image.
  *
- * @param string|resource $img File name or image resource
- * @param int $newWidth New width
- * @param int $newHeight New height
+ * @param string|resource|GdImage $img File name or image resource
+ * @param int|null $newWidth New width
+ * @param int|null $newHeight New height
  * @param int $mode Mode (default: B_IMG_SIZE_RATIO)
  *
- * @return resource
- * @throws InvalidArgumentException if not valid input resource or file name
+ * @return resource|GdImage
  */
 function b_img_resize($img, int $newWidth = null, int $newHeight = null, int $mode = B_IMG_SIZE_RATIO)
 {
@@ -385,12 +410,11 @@ function b_img_resize($img, int $newWidth = null, int $newHeight = null, int $mo
 /**
  * Resize support of image.
  *
- * @param string|resource $img File name or image resource
- * @param int $newWidth New width
- * @param int $newHeight New height
+ * @param string|resource|GdImage $img File name or image resource
+ * @param int|null $newWidth New width
+ * @param int|null $newHeight New height
  *
- * @return resource
- * @throws InvalidArgumentException if not valid input resource or file name
+ * @return resource|GdImage
  */
 function b_img_support($img, int $newWidth = null, int $newHeight = null)
 {
