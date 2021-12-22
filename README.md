@@ -44,6 +44,14 @@ Many PHP functions used in the Berlioz framework, which you can use in your deve
 
     Get size in bytes from ini conf file.
 
+  - `b_resolve_absolute_path(string $srcPath, string $dstPath): ?string`
+
+    Resolve absolute path from another.
+
+  - `b_resolve_relative_path(string $srcPath, string $dstPath): string`
+
+    Resolve relative path from another.
+
 ## File
 
   - `b_get_property_value($object, string $property, &$exists = null): mixed`
