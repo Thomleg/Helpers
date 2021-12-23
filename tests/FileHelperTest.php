@@ -60,6 +60,11 @@ class FileHelperTest extends TestCase
             ['foo/bar/index', '../../qux/quux.foo', '/qux/quux.foo'],
             ['foo/bar/index.md', '../../../qux.md', null],
             ['foo/bar/index', '../../qux/quux.foo#anchor', '/qux/quux.foo#anchor'],
+            ['foo/bar/index', '../../', '/'],
+            ['foo/bar/index', '../..', '/'],
+            ['foo/bar/', '../', '/foo/'],
+            ['foo/bar/', '..', '/foo/'],
+            ['foo/bar/', '../qux', '/foo/qux'],
         ];
     }
 
@@ -92,9 +97,15 @@ class FileHelperTest extends TestCase
             ['/foo/bar/quux/index.md', '/foo/qux/corge/baz.md', '../../qux/corge/baz.md'],
             ['./foo/index.md', './bar/baz.md', './bar/baz.md'],
             ['foo/index.md', '/bar/baz.md', '../bar/baz.md'],
+            ['/foo/bar/index.md', '/foo/qux/baz.md', '../qux/baz.md'],
+            ['/foo/bar/baz/qux/index.md', '/foo/qux/bar/baz/baz.md', '../../../qux/bar/baz/baz.md'],
             ['./foo/index.md', '../bar/baz.md', '../bar/baz.md'],
             ['./foo/index.md', '../foo/baz.md', './baz.md'],
             ['./foo/index.md', '../foo/baz.md#anchor', './baz.md#anchor'],
+            ['/foo/bar/index.md', '/foo/qux/', '../qux/'],
+            ['/foo/bar/index.md', '../../', '../../'],
+            ['/foo/bar/index.md', '..', '../'],
+            ['/foo/bar/index.md', '../', '../'],
         ];
     }
 

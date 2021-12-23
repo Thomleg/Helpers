@@ -132,7 +132,11 @@ final class FileHelper
             }
 
             // Unification of directories separators
-            $finalPath = self::uniformizePathSeparator(dirname($srcPath));
+            $finalPath = $srcPath;
+            if (substr($finalPath, -1) !== '/') {
+                $finalPath = self::uniformizePathSeparator(dirname($finalPath));
+            }
+            $finalPath = rtrim($finalPath, '/');
             if ($finalPath === '.') {
                 $finalPath = '';
             }
@@ -146,7 +150,7 @@ final class FileHelper
 
         // Replacement of '../'
         do {
-            $finalPath = preg_replace('#(/|^)([^\\\/?%*:|"<>.]+)/../#', '/', $finalPath, -1, $nbReplacements);
+            $finalPath = preg_replace('#(/|^)([^\\\/?%*:|"<>.]+)/..(/|$)#', '/', $finalPath, -1, $nbReplacements);
         } while ($nbReplacements > 0);
 
         if (false === strpos($finalPath, './')) {
@@ -190,20 +194,21 @@ final class FileHelper
 
         $srcDepth = count($srcPath);
         $dstDepth = count($dstPath);
-        $differentDepthPath = 0;
+        $differentDepthPath = false;
 
         for ($i = 0; $i < $srcDepth; $i++) {
-            if (!isset($dstPath[$i]) || $srcPath[$i] !== $dstPath[$i] || $differentDepthPath > 0) {
-                $differentDepthPath++;
+            if (!isset($dstPath[$i]) || $srcPath[$i] !== $dstPath[$i]) {
+                $differentDepthPath = $i;
+                break;
             }
         }
 
         $relativePath = '';
-        if ($differentDepthPath > 0) {
-            $relativePath .= str_repeat('../', $differentDepthPath);
-            $relativePath .= implode('/', array_slice($dstPath, min($dstDepth, $differentDepthPath) - 1));
+        if (false !== $differentDepthPath) {
+            $relativePath .= str_repeat('../', $srcDepth - $differentDepthPath);
+            $relativePath .= implode('/', array_slice($dstPath, min($dstDepth, $differentDepthPath)));
         }
-        if ($differentDepthPath === 0) {
+        if (false === $differentDepthPath) {
             $relativePath .= './';
             $relativePath .= implode('/', array_slice($dstPath, $srcDepth, $dstDepth));
         }
@@ -239,11 +244,11 @@ final class FileHelper
      */
     private static function extractFilename(array &$path): ?string
     {
-        $filename = end($path) ?: null;
-
-        if (null !== $filename) {
-            unset($path[count($path) - 1]);
+        if (false === ($filename = end($path))) {
+            return null;
         }
+
+        unset($path[count($path) - 1]);
 
         return $filename;
     }
