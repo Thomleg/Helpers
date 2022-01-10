@@ -15,6 +15,7 @@ declare(strict_types=1);
 namespace Berlioz\Helpers;
 
 use ArrayObject;
+use Closure;
 use InvalidArgumentException;
 use SimpleXMLElement;
 use Traversable;
@@ -77,6 +78,80 @@ final class ArrayHelper
     }
 
     /**
+     * Get values from a single column in the input array.
+     *
+     * Difference between native array_column() and b_array_column() is
+     * that b_array_column() accept a \Closure in keys arguments.
+     *
+     * @param array $array
+     * @param string|int|Closure|null $column_key
+     * @param string|int|Closure|null $index_key
+     *
+     * @return array
+     */
+    public static function column(array $array, $column_key, $index_key = null): array
+    {
+        if (!(is_int($column_key) ||
+            is_string($column_key) ||
+            null === $column_key ||
+            $column_key instanceof Closure)) {
+            throw new InvalidArgumentException('$column_key argument must be int|string|\Closure|null');
+        }
+
+        if (!(is_int($index_key) ||
+            is_string($index_key) ||
+            null === $index_key ||
+            $index_key instanceof Closure)) {
+            throw new InvalidArgumentException('$index_key argument must be int|string|\Closure|null');
+        }
+
+        if (!$column_key instanceof Closure && !$index_key instanceof Closure) {
+            return array_column($array, $column_key, $index_key);
+        }
+
+        $final = [];
+
+        foreach ($array as $key => $value) {
+            $finalValue = $value;
+            $finalIndex = $key;
+
+            if (null !== $column_key) {
+                if ($column_key instanceof Closure) {
+                    $finalValue = $column_key($value, $key);
+                }
+
+                if (!$column_key instanceof Closure) {
+                    if (is_object($value)) {
+                        $finalValue = $value->$column_key;
+                    }
+                    if (is_array($value)) {
+                        $finalValue = $value[$column_key];
+                    }
+                }
+            }
+
+            if (null !== $index_key) {
+                if ($index_key instanceof Closure) {
+                    $finalIndex = $index_key($value, $key);
+                }
+
+                if (!$index_key instanceof Closure) {
+                    if (is_object($value)) {
+                        $finalValue = $value->$index_key;
+                    }
+                    if (is_array($value)) {
+                        $finalValue = $value[$index_key];
+                    }
+                }
+            }
+
+            $final[$finalIndex] = $finalValue;
+        }
+
+        return $final;
+    }
+
+    /**
      * Convert array to an XML element.
      *
      * @param $array
@@ -98,7 +173,7 @@ final class ArrayHelper
 
         foreach ($array as $key => $value) {
             if (is_array($value) || $value instanceof Traversable) {
-                if (static::isSequential($value)) {
+                if (static::isList($value)) {
                     static::toXml($value, $root, (string)$key);
                     continue;
                 }
@@ -142,7 +217,7 @@ final class ArrayHelper
                 continue;
             }
 
-            if (self::isSequential($arraySrc) || self::isSequential($array)) {
+            if (self::isList($arraySrc) || self::isList($array)) {
                 $arraySrc = array_merge($arraySrc, $array);
                 continue;
             }

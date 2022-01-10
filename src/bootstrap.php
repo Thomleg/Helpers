@@ -37,6 +37,23 @@ function b_array_is_list(array $array): bool
 }
 
 /**
+ * Get values from a single column in the input array.
+ *
+ * Difference between native array_column() and b_array_column() is
+ * that b_array_column() accept a \Closure in keys arguments.
+ *
+ * @param array $array
+ * @param string|int|Closure|null $column_key
+ * @param string|int|Closure|null $index_key
+ *
+ * @return array
+ */
+function b_array_column(array $array, $column_key, $index_key = null): array
+{
+    return ArrayHelper::column($array, $column_key, $index_key);
+}
+
+/**
  * Convert array to an XML element.
  *
  * @param array $array

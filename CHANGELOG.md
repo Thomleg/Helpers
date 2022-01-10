@@ -6,9 +6,15 @@ use [Keep a Changelog] (http://keepachangelog.com/).
 
 ## [1.6.0] - 2022-01-10
 
+### Added
+
+- New method `ArrayHelper::column()` to do similar job than `array_column()` native function but accepts \Closure in
+  arguments to found keys
+
 ### Changed
 
-- Method `ArrayHelper::isSequential()` becomes deprecated (`b_array_is_sequential()` function), use `ArrayHelper::isList()` instead (`b_array_is_list()` function)
+- Method `ArrayHelper::isSequential()` becomes deprecated (`b_array_is_sequential()` function),
+  use `ArrayHelper::isList()` instead (`b_array_is_list()` function)
 
 ## [1.5.1] - 2021-12-23
 

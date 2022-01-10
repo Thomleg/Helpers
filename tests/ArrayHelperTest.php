@@ -30,6 +30,130 @@ class ArrayHelperTest extends TestCase
         $this->assertFalse(ArrayHelper::isList(['00' => 'foo', '01' => 'bar', '02' => 'hello', '03' => 'world']));
     }
 
+    public function testColumn()
+    {
+        $this->assertEquals(
+            ArrayHelper::column([['Foo', 'Bar'], ['Baz', 'Qux']], 1, 0),
+            array_column([['Foo', 'Bar'], ['Baz', 'Qux']], 1, 0),
+        );
+        $this->assertEquals(
+            ArrayHelper::column(
+                [['key1' => 'Foo', 'key2' => 'Bar'], ['key1' => 'Baz', 'key2' => 'Qux']],
+                'key2',
+                'key1'
+            ),
+            array_column([['key1' => 'Foo', 'key2' => 'Bar'], ['key1' => 'Baz', 'key2' => 'Qux']], 'key2', 'key1'),
+        );
+        $this->assertEquals(
+            ArrayHelper::column(
+                [['key1' => 'Foo', 'key2' => 'Bar'], ['key1' => 'Baz', 'key2' => 'Qux']],
+                function ($value) {
+                    return $value['key2'];
+                },
+                function ($value) {
+                    return $value['key1'];
+                }
+            ),
+            array_column([['key1' => 'Foo', 'key2' => 'Bar'], ['key1' => 'Baz', 'key2' => 'Qux']], 'key2', 'key1'),
+        );
+
+        $array = [
+            $obj1 = new class {
+                public $key1 = 'Foo';
+                public $key2 = 'Bar';
+            },
+            $obj2 = new class {
+                public $key1 = 'Baz';
+                public $key2 = 'Qux';
+            }
+        ];
+        $this->assertEquals(
+            ArrayHelper::column(
+                $array,
+                function ($value) {
+                    return $value->key2;
+                },
+                function ($value) {
+                    return $value->key1;
+                }
+            ),
+            array_column($array, 'key2', 'key1'),
+        );
+        $this->assertEquals(
+            ArrayHelper::column(
+                $array,
+                'key2',
+                function ($value) {
+                    return $value->key1;
+                }
+            ),
+            array_column($array, 'key2', 'key1'),
+        );
+    }
+
+    public function testColumnWithClosure()
+    {
+        $array = [
+            $obj1 = new class {
+                private $key1 = 'Foo';
+                private $key2 = 'Bar';
+
+                public function getKey1(): string
+                {
+                    return $this->key1;
+                }
+
+                public function getKey2(): string
+                {
+                    return $this->key2;
+                }
+            },
+            $obj2 = new class {
+                private $key1 = 'Baz';
+                private $key2 = 'Qux';
+
+                public function getKey1(): string
+                {
+                    return $this->key1;
+                }
+
+                public function getKey2(): string
+                {
+                    return $this->key2;
+                }
+            }
+        ];
+
+        $this->assertEquals(
+            [
+                'Bar' => 'Foo',
+                'Qux' => 'Baz',
+            ],
+            ArrayHelper::column(
+                $array,
+                function ($value) {
+                    return $value->getKey1();
+                },
+                function ($value) {
+                    return $value->getKey2();
+                }
+            )
+        );
+        $this->assertEquals(
+            [
+                'Bar' => $obj1,
+                'Qux' => $obj2,
+            ],
+            ArrayHelper::column(
+                $array,
+                null,
+                function ($value) {
+                    return $value->getKey2();
+                }
+            )
+        );
+    }
+
     /**
      * @requires extension simplexml
      */
