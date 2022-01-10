@@ -34,8 +34,22 @@ final class ArrayHelper
      * @param array $array
      *
      * @return bool
+     * @deprecated Use ArrayHelper::isList() instead
+     * @see ArrayHelper::isList()
      */
     public static function isSequential(array $array): bool
+    {
+        return static::isList($array);
+    }
+
+    /**
+     * Is array list?
+     *
+     * @param array $array
+     *
+     * @return bool
+     */
+    public static function isList(array $array): bool
     {
         if (function_exists('\array_is_list')) {
             return array_is_list($array);

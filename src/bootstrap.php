@@ -16,10 +16,24 @@ use Berlioz\Helpers\StringHelper;
  * @param array $array
  *
  * @return bool
+ * @deprecated Use b_array_is_list() instead
+ * @see b_array_is_list()
  */
 function b_array_is_sequential(array $array): bool
 {
-    return ArrayHelper::isSequential($array);
+    return ArrayHelper::isList($array);
+}
+
+/**
+ * Is array list?
+ *
+ * @param array $array
+ *
+ * @return bool
+ */
+function b_array_is_list(array $array): bool
+{
+    return ArrayHelper::isList($array);
 }
 
 /**

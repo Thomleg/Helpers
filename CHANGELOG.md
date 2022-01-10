@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file. This projec
 to [Semantic Versioning] (http://semver.org/). For change log format,
 use [Keep a Changelog] (http://keepachangelog.com/).
 
+## [1.6.0] - 2022-01-10
+
+### Changed
+
+- Method `ArrayHelper::isSequential()` becomes deprecated (`b_array_is_sequential()` function), use `ArrayHelper::isList()` instead (`b_array_is_list()` function)
+
 ## [1.5.1] - 2021-12-23
 
 ### Fixed

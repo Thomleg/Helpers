@@ -17,17 +17,17 @@ use PHPUnit\Framework\TestCase;
 
 class ArrayHelperTest extends TestCase
 {
-    public function testIsSequential()
+    public function testIsList()
     {
-        $this->assertTrue(ArrayHelper::isSequential([]));
-        $this->assertTrue(ArrayHelper::isSequential(['foo', 'bar', 'hello', 'world']));
-        $this->assertTrue(ArrayHelper::isSequential([0 => 'foo', 1 => 'bar', 2 => 'hello', 3 => 'world']));
+        $this->assertTrue(ArrayHelper::isList([]));
+        $this->assertTrue(ArrayHelper::isList(['foo', 'bar', 'hello', 'world']));
+        $this->assertTrue(ArrayHelper::isList([0 => 'foo', 1 => 'bar', 2 => 'hello', 3 => 'world']));
 
-        $this->assertFalse(ArrayHelper::isSequential(['0' => 'foo', '2' => 'bar', '1' => 'hello', '3' => 'world']));
-        $this->assertFalse(ArrayHelper::isSequential([0 => 'foo', 2 => 'bar', 1 => 'hello', 3 => 'world']));
-        $this->assertFalse(ArrayHelper::isSequential(['bar' => 'foo', 'foo' => 'bar', '1' => 'hello', '3' => 'world']));
-        $this->assertFalse(ArrayHelper::isSequential(['bar' => 'foo', 'foo' => 'bar', 1 => 'hello', 3 => 'world']));
-        $this->assertFalse(ArrayHelper::isSequential(['00' => 'foo', '01' => 'bar', '02' => 'hello', '03' => 'world']));
+        $this->assertFalse(ArrayHelper::isList(['0' => 'foo', '2' => 'bar', '1' => 'hello', '3' => 'world']));
+        $this->assertFalse(ArrayHelper::isList([0 => 'foo', 2 => 'bar', 1 => 'hello', 3 => 'world']));
+        $this->assertFalse(ArrayHelper::isList(['bar' => 'foo', 'foo' => 'bar', '1' => 'hello', '3' => 'world']));
+        $this->assertFalse(ArrayHelper::isList(['bar' => 'foo', 'foo' => 'bar', 1 => 'hello', 3 => 'world']));
+        $this->assertFalse(ArrayHelper::isList(['00' => 'foo', '01' => 'bar', '02' => 'hello', '03' => 'world']));
     }
 
     /**
