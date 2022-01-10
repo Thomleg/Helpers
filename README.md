@@ -10,9 +10,16 @@ Many PHP functions used in the Berlioz framework, which you can use in your deve
 
 ## Array
 
-  - `b_array_is_sequential(array $array): bool`
+  - `b_array_is_list(array $array): bool`
 
      Is sequential array?
+
+  - `b_array_column(array $array, int|string|\Closure|null $column_key, int|string|\Closure|null $index_key = null): array`
+
+    Get values from a single column in the input array.
+    
+    Difference between native array_column() and b_array_column() is
+    that b_array_column() accept a \Closure in keys arguments.
 
   - `b_array_merge_recursive(array $arraySrc, array ...$arrays): array`
 
