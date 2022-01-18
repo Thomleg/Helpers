@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file. This projec
 to [Semantic Versioning] (http://semver.org/). For change log format,
 use [Keep a Changelog] (http://keepachangelog.com/).
 
+## [1.6.1] - 2022-01-18
+
+### Fixed
+
+- `StringHelper::parseStr()` with encoded brackets
+
 ## [1.6.0] - 2022-01-10
 
 ### Added

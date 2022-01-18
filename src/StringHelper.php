@@ -280,7 +280,7 @@ EOT;
             $result = [];
             parse_str($variable, $result);
 
-            $split = preg_split('/(\[.*\])?=/', $variable, 2);
+            $split = preg_split('/((%5B|\[).*(%5D|\]))?=/i', $variable, 2);
 
             if (false === is_array($split)) {
                 continue;

@@ -137,6 +137,14 @@ class StringHelperTest extends TestCase
             StringHelper::parseStr('first=value&arr[]=foo+bar&arr[]=baz')
         );
         $this->assertEquals(
+            ['first' => 'value', 'arr' => ['foo bar', 'baz']],
+            StringHelper::parseStr('first=value&arr%5B%5D=foo+bar&arr%5b%5d=baz')
+        );
+        $this->assertEquals(
+            ['first' => 'value', 'arr' => [1 => 'foo bar', 2 => 'baz']],
+            StringHelper::parseStr('first=value&arr[1]=foo+bar&arr[2]=baz')
+        );
+        $this->assertEquals(
             ['foo' => 'baz'],
             StringHelper::parseStr('foo=bar&foo=baz')
         );
@@ -147,6 +155,14 @@ class StringHelperTest extends TestCase
         $this->assertEquals(
             ['foo' => 'qux', 'bar' => ''],
             StringHelper::parseStr('foo=qux&bar')
+        );
+        $this->assertEquals(
+            ['first' => 'value', 'arr' => ['foo' => 'bar', 'qux' => 'baz']],
+            StringHelper::parseStr('first=value&arr%5Bfoo%5D=bar&arr[qux]=baz')
+        );
+        $this->assertEquals(
+            ['first' => 'value', 'arr' => ['foo bar', 'baz']],
+            StringHelper::parseStr('first=value&arr%5B%5D=foo+bar&arr%5b%5d=baz')
         );
 
         $this->assertEquals([], StringHelper::parseStr(''));
@@ -164,6 +180,10 @@ class StringHelperTest extends TestCase
             StringHelper::parseStr('first=value&arr[]=foo+bar&arr[]=baz', false)
         );
         $this->assertEquals(
+            ['first' => 'value', 'arr' => ['foo bar', 'baz']],
+            StringHelper::parseStr('first=value&arr%5B%5D=foo+bar&arr%5b%5d=baz', false)
+        );
+        $this->assertEquals(
             ['foo' => 'baz'],
             StringHelper::parseStr('foo=bar&foo=baz', false)
         );
@@ -174,6 +194,14 @@ class StringHelperTest extends TestCase
         $this->assertEquals(
             ['foo' => 'qux', 'bar' => ''],
             StringHelper::parseStr('foo=qux&bar', false)
+        );
+        $this->assertEquals(
+            ['first' => 'value', 'arr' => ['foo' => 'bar', 'qux' => 'baz']],
+            StringHelper::parseStr('first=value&arr%5Bfoo%5D=bar&arr[qux]=baz', false)
+        );
+        $this->assertEquals(
+            ['first' => 'value', 'arr' => ['foo bar', 'baz']],
+            StringHelper::parseStr('first=value&arr%5B%5D=foo+bar&arr%5b%5d=baz', false)
         );
 
         $this->assertEquals([], StringHelper::parseStr('', false));
