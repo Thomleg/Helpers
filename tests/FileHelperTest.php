@@ -65,19 +65,21 @@ class FileHelperTest extends TestCase
             ['foo/bar/', '../', '/foo/'],
             ['foo/bar/', '..', '/foo/'],
             ['foo/bar/', '../qux', '/foo/qux'],
+            ['foo/bar/', '', '/foo/bar/'],
+            ['foo/bar', '', '/foo/bar'],
         ];
     }
 
     /**
      * @param $src
      * @param $dst
-     * @param $excepted
+     * @param $expected
      *
      * @dataProvider absolutePathProvider
      */
-    public function testResolveAbsolutePath($src, $dst, $excepted)
+    public function testResolveAbsolutePath($src, $dst, $expected)
     {
-        $this->assertEquals($excepted, FileHelper::resolveAbsolutePath($src, $dst));
+        $this->assertEquals($expected, FileHelper::resolveAbsolutePath($src, $dst));
     }
 
     public function relativePathProvider(): array
@@ -106,14 +108,16 @@ class FileHelperTest extends TestCase
             ['/foo/bar/index.md', '../../', '../../'],
             ['/foo/bar/index.md', '..', '../'],
             ['/foo/bar/index.md', '../', '../'],
+            ['/foo/bar/', '', './'],
+            ['/foo/bar/index.md', '', './index.md'],
         ];
     }
 
     /**
      * @dataProvider relativePathProvider
      */
-    public function testResolveRelativePath($src, $dst, $excepted)
+    public function testResolveRelativePath($src, $dst, $expected)
     {
-        $this->assertEquals($excepted, FileHelper::resolveRelativePath($src, $dst));
+        $this->assertEquals($expected, FileHelper::resolveRelativePath($src, $dst));
     }
 }

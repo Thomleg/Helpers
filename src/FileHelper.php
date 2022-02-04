@@ -123,9 +123,9 @@ final class FileHelper
     {
         $srcPath = self::uniformizePathSeparator($srcPath);
         $dstPath = self::uniformizePathSeparator($dstPath);
-        $finalPath = $dstPath;
+        $finalPath = $dstPath ?: $srcPath;
 
-        if (substr($dstPath, 0, 1) !== '/') {
+        if (strlen($dstPath) > 0 && substr($dstPath, 0, 1) !== '/') {
             // Complete absolute link
             if (substr($dstPath, 0, 2) === './') {
                 $dstPath = substr($dstPath, 2);
