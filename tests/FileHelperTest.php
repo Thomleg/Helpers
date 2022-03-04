@@ -67,6 +67,9 @@ class FileHelperTest extends TestCase
             ['foo/bar/', '../qux', '/foo/qux'],
             ['foo/bar/', '', '/foo/bar/'],
             ['foo/bar', '', '/foo/bar'],
+            ['/foo/bar/', '/foo/bar.html', '/foo/bar.html'],
+            ['/foo/bar/', '/foo/bar/baz/qux.html', '/foo/bar/baz/qux.html'],
+            ['/foo/ba/', '/foo/ba/baz/qux.html', '/foo/ba/baz/qux.html'],
         ];
     }
 

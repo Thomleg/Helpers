@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file. This projec
 to [Semantic Versioning] (http://semver.org/). For change log format,
 use [Keep a Changelog] (http://keepachangelog.com/).
 
+## [1.6.3] - 2022-03-04
+
+### Fixed
+
+- `FileHelper::resolveAbsolutePath()` confuse directory of 2 characters with '..'
+
 ## [1.6.2] - 2022-02-04
 
 ### Fixed

@@ -150,7 +150,7 @@ final class FileHelper
 
         // Replacement of '../'
         do {
-            $finalPath = preg_replace('#(/|^)([^\\\/?%*:|"<>.]+)/..(/|$)#', '/', $finalPath, -1, $nbReplacements);
+            $finalPath = preg_replace('#(/|^)([^\\\/?%*:|"<>.]+)/\.\.(/|$)#', '/', $finalPath, -1, $nbReplacements);
         } while ($nbReplacements > 0);
 
         if (false === strpos($finalPath, './')) {
