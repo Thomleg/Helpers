@@ -282,15 +282,24 @@ EOT;
 
             $split = preg_split('/((%5B|\[).*(%5D|\]))?=/i', $variable, 2);
 
-            if (false === is_array($split)) {
+            if (false === $split) {
                 continue;
             }
 
             if (empty($split[0])) {
-                continue;
+                $split = explode('=', $variable, 2);
+
+                if (false === $split) {
+                    continue;
+                }
+
+                if (empty($split[0])) {
+                    continue;
+                }
             }
 
-            $final = b_array_merge_recursive($final, [urldecode($split[0]) => reset($result)]);
+            $result = reset($result);
+            $final = b_array_merge_recursive($final, [urldecode($split[0]) => $result ?: ($split[1] ?? null)]);
         }
 
         return $final;
