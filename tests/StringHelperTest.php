@@ -165,8 +165,8 @@ class StringHelperTest extends TestCase
             StringHelper::parseStr('first=value&arr%5B%5D=foo+bar&arr%5b%5d=baz')
         );
         $this->assertEquals(
-            ['[first]' => 'value', '[foo]' => 'bar', 'arr' => ['baz']],
-            StringHelper::parseStr('%5Bfirst%5D=value&%5Bfoo%5D=bar&arr%5b%5d=baz')
+            ['[first]' => 'val[ue', '[foo]' => 'bar', 'arr' => ['baz']],
+            StringHelper::parseStr('%5Bfirst%5D=val%5Bue&%5Bfoo%5D=bar&arr%5b%5d=baz')
         );
 
         $this->assertEquals([], StringHelper::parseStr(''));
