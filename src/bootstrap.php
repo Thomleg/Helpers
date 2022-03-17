@@ -200,6 +200,20 @@ function b_fwritei($resource, string $data, ?int $length = null, ?int $offset = 
     return FileHelper::fwritei($resource, $data, $length, $offset);
 }
 
+/**
+ * Truncate a part of file and shift rest of data.
+ *
+ * @param resource $resource
+ * @param int $size
+ * @param int|null $offset Truncate $size chars from $offset
+ *
+ * @return bool
+ */
+function b_ftruncate($resource, int $size, ?int $offset = null): bool
+{
+    return FileHelper::ftruncate($resource, $size, $offset);
+}
+
 
 /////////////////////
 /// OBJECT HELPER ///

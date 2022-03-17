@@ -178,4 +178,24 @@ class FileHelperTest extends TestCase
             stream_get_contents($resource, -1, 0)
         );
     }
+
+    public function testFtruncate()
+    {
+        $resource = fopen('php://memory', 'w+');
+        fwrite($resource, 'Populari magistro');
+
+        FileHelper::ftruncate($resource, 13);
+
+        $this->assertEquals(
+            'Populari magi',
+            stream_get_contents($resource, -1, 0)
+        );
+
+        FileHelper::ftruncate($resource, 4, 4);
+
+        $this->assertEquals(
+            'Popu magi',
+            stream_get_contents($resource, -1, 0)
+        );
+    }
 }

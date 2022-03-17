@@ -62,7 +62,9 @@ Many PHP functions used in the Berlioz framework, which you can use in your deve
 
   File write in insertion mode.
 
-  Use seekable and writeable resource and not mode 'a+'.
+- `b_ftruncate(resource $resource, int $size, ?int $offset = null): bool`
+
+  Truncate a part of file and shift rest of data.
 
 ## Object
 

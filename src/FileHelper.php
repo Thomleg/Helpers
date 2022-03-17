@@ -15,6 +15,7 @@ declare(strict_types=1);
 namespace Berlioz\Helpers;
 
 use InvalidArgumentException;
+use RuntimeException;
 
 /**
  * Class FileHelper.
@@ -287,5 +288,47 @@ final class FileHelper
         } while (false !== $shiftData);
 
         return $totalWritten;
+    }
+
+    /**
+     * Truncate a part of file and shift rest of data.
+     *
+     * @param resource $resource
+     * @param int $size
+     * @param int|null $offset Truncate $size chars from $offset
+     *
+     * @return bool
+     */
+    public static function ftruncate($resource, int $size, ?int $offset = null): bool
+    {
+        if (!is_resource($resource)) {
+            throw new InvalidArgumentException('Argument #1 must be a valid resource');
+        }
+
+        // Default comportment
+        if (null === $offset) {
+            return ftruncate($resource, $size);
+        }
+
+        // Find total length
+        if (false === ($totalLength = fstat($resource)['size'] ?? false)) {
+            throw new RuntimeException('Unable to get length of resource');
+        }
+
+        // Shift data
+        for ($pos = $offset; $pos < $totalLength - $size; $pos++) {
+            if (-1 == fseek($resource, $pos + $size)) {
+                return false;
+            }
+
+            if (false === ($chr = fread($resource, 1))) {
+                return false;
+            }
+
+            fseek($resource, $pos);
+            fwrite($resource, $chr);
+        }
+
+        return ftruncate($resource, $totalLength - $size);
     }
 }
