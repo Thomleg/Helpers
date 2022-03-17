@@ -123,4 +123,59 @@ class FileHelperTest extends TestCase
     {
         $this->assertEquals($expected, FileHelper::resolveRelativePath($src, $dst));
     }
+
+    public function testFwritei()
+    {
+        $resource = fopen('php://memory', 'w+');
+        fwrite($resource, 'Populari magistro');
+
+        FileHelper::fwritei($resource, ' commeatus');
+
+        $this->assertEquals(
+            'Populari magistro commeatus',
+            stream_get_contents($resource, -1, 0)
+        );
+
+        fseek($resource, 9);
+        FileHelper::fwritei($resource, 'quae referente ');
+
+        $this->assertEquals(
+            'Populari quae referente magistro commeatus',
+            stream_get_contents($resource, -1, 0)
+        );
+
+        fseek($resource, 0);
+        FileHelper::fwritei($resource, 'BERLIOZ: ');
+
+        $this->assertEquals(
+            'BERLIOZ: Populari quae referente magistro commeatus',
+            stream_get_contents($resource, -1, 0)
+        );
+    }
+
+    public function testFwritei_withLength()
+    {
+        $resource = fopen('php://memory', 'w+');
+        fwrite($resource, 'Populari magistro');
+
+        FileHelper::fwritei($resource, ' commeatus', 4, 8);
+
+        $this->assertEquals(
+            'Populari com magistro',
+            stream_get_contents($resource, -1, 0)
+        );
+    }
+
+    public function testFwritei_withOffset()
+    {
+        $resource = fopen('php://memory', 'w+');
+        fwrite($resource, 'Populari magistro');
+
+        FileHelper::fwritei($resource, ' commeatus', null, 8);
+
+        $this->assertEquals(
+            'Populari commeatus magistro',
+            stream_get_contents($resource, -1, 0)
+        );
+    }
 }

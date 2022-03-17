@@ -252,4 +252,40 @@ final class FileHelper
 
         return $filename;
     }
+
+    /**
+     * File write in insertion mode.
+     *
+     * Use seekable and writeable resource and not mode 'a+'.
+     *
+     * @param resource $resource
+     * @param string $data
+     * @param int|null $length
+     * @param int|null $offset
+     *
+     * @return int|false
+     */
+    public static function fwritei($resource, string $data, ?int $length = null, ?int $offset = null)
+    {
+        if (!is_resource($resource)) {
+            throw new InvalidArgumentException('Argument #1 must be a valid resource');
+        }
+
+        // Shift content
+        fseek($resource, $currentPos = $offset ?? ftell($resource));
+        $dataLength = $length ?? strlen($data);
+        $i = 0;
+        $totalWritten = 0;
+        do {
+            $shiftData = fread($resource, $dataLength) ?: false;
+            fseek($resource, $currentPos + ($dataLength * $i++));
+            if (false === ($written = fwrite($resource, $data, $dataLength))) {
+                return false;
+            }
+            $totalWritten += $written;
+            $data = $shiftData;
+        } while (false !== $shiftData);
+
+        return $totalWritten;
+    }
 }

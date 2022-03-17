@@ -183,6 +183,23 @@ function b_resolve_relative_path(string $srcPath, string $dstPath): string
     return FileHelper::resolveRelativePath($srcPath, $dstPath);
 }
 
+/**
+ * File write in insertion mode.
+ *
+ * Use seekable and writeable resource and not mode 'a+'.
+ *
+ * @param resource $resource
+ * @param string $data
+ * @param int|null $length
+ * @param int|null $offset
+ *
+ * @return int|false
+ */
+function b_fwritei($resource, string $data, ?int $length = null, ?int $offset = null)
+{
+    return FileHelper::fwritei($resource, $data, $length, $offset);
+}
+
 
 /////////////////////
 /// OBJECT HELPER ///
