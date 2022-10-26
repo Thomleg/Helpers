@@ -352,4 +352,40 @@ class ArrayHelperTest extends TestCase
         $this->assertFalse(ArrayHelper::traverseSet($tArray, 'foo.bar.foo', 'bar'));
         $this->assertTrue(ArrayHelper::traverseSet($tArray, 'bar.foo', 'baz'));
     }
+
+    public function testSimpleArray()
+    {
+        $arr = [
+            'foo' => 'bar',
+            'foo2' => [
+                'foo3' => ['foo4' => 'bar4'],
+                'foo5' => 'bar5',
+                'foo6' => [
+                    'foo7' => 'bar7',
+                    'foo8' => 'bar8',
+                ],
+            ],
+        ];
+
+        $this->assertEquals(
+            [
+                'foo' => 'bar',
+                'foo2.foo3.foo4' => 'bar4',
+                'foo2.foo5' => 'bar5',
+                'foo2.foo6.foo7' => 'bar7',
+                'foo2.foo6.foo8' => 'bar8',
+            ],
+            ArrayHelper::simpleArray($arr),
+        );
+        $this->assertEquals(
+            [
+                'prefix.foo' => 'bar',
+                'prefix.foo2.foo3.foo4' => 'bar4',
+                'prefix.foo2.foo5' => 'bar5',
+                'prefix.foo2.foo6.foo7' => 'bar7',
+                'prefix.foo2.foo6.foo8' => 'bar8',
+            ],
+            ArrayHelper::simpleArray($arr, 'prefix'),
+        );
+    }
 }

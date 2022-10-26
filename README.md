@@ -40,6 +40,10 @@ Many PHP functions used in the Berlioz framework, which you can use in your deve
 
   Traverse array with path and set value.
 
+- `b_array_simple(array $array, ?string $prefix = null): array`
+
+  Simplify a multidimensional array to simple.
+
 ## File
 
 - `b_human_file_size($size, int $precision = 2): string`

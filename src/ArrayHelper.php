@@ -16,6 +16,7 @@ namespace Berlioz\Helpers;
 
 use ArrayObject;
 use Closure;
+use Exception;
 use InvalidArgumentException;
 use SimpleXMLElement;
 use Traversable;
@@ -159,6 +160,7 @@ final class ArrayHelper
      * @param string|null $rootName
      *
      * @return SimpleXMLElement
+     * @throws Exception
      */
     public static function toXml($array, ?SimpleXMLElement $root = null, ?string $rootName = null): SimpleXMLElement
     {
@@ -337,5 +339,34 @@ final class ArrayHelper
         $temp = $value;
 
         return true;
+    }
+
+    /**
+     * Transform multidimensional array to simple level.
+     *
+     * @param array $array
+     * @param string|null $prefix
+     *
+     * @return array
+     */
+    public static function simpleArray(array $array, ?string $prefix = null): array
+    {
+        $metaData = [];
+
+        foreach ($array as $key => $value) {
+            // Prefix key if necessary
+            if (null !== $prefix) {
+                $key = $prefix . '.' . $key;
+            }
+
+            if (is_array($value)) {
+                $metaData = array_merge($metaData, self::simpleArray($value, $key));
+                continue;
+            }
+
+            $metaData[$key] = $value;
+        }
+
+        return $metaData;
     }
 }

@@ -127,6 +127,19 @@ function b_array_traverse_set(&$mixed, string $path, $value): bool
     return ArrayHelper::traverseSet($mixed, $path, $value);
 }
 
+/**
+ * Simplify multi-dimensional array.
+ *
+ * @param array $array
+ * @param string|null $prefix
+ *
+ * @return array
+ */
+function b_array_simple(array $array, ?string $prefix = null): array
+{
+    return ArrayHelper::simpleArray($array, $prefix = null);
+}
+
 
 ///////////////////
 /// FILE HELPER ///
